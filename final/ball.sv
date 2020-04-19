@@ -14,18 +14,17 @@
 //-------------------------------------------------------------------------
 
 
-module  ball (  input         Clk,                // 50 MHz clock
+module  ball ( input         Clk,                // 50 MHz clock
                              Reset,              // Active-high reset signal
                              frame_clk,          // The clock indicating a new frame (~60Hz)
-				input [7:0]   keycode, 				 // Accept the last received key 
-                input [9:0]   DrawX, DrawY,       // Current pixel coordinates
-                output logic  is_ball,             // Whether current pixel belongs to ball or background
-			    output logic  is_black
-				
+					input [7:0]   keycode, 				 // Accept the last received key 
+               input [9:0]   DrawX, DrawY,       // Current pixel coordinates
+               output logic  is_ball,             // Whether current pixel belongs to ball or background
+               output logic  is_black
 				  );
     
     parameter [9:0] Ball_X_Center = 10'd28;  // Center position on the X axis
-    parameter [9:0] Ball_Y_Center = 10'd28;  // Center position on the Y axis
+    parameter [9:0] Ball_Y_Center = 10'd402;  // Center position on the Y axis
     // parameter [9:0] Ball_X_Min = 10'd0;       // Leftmost point on the X axis
     // parameter [9:0] Ball_X_Max = 10'd639;     // Rightmost point on the X axis
     // parameter [9:0] Ball_Y_Min = 10'd0;       // Topmost point on the Y axis
@@ -35,14 +34,15 @@ module  ball (  input         Clk,                // 50 MHz clock
     parameter [9:0] Ball_Size = 10'd8;        // Ball size
     parameter [16:0] frame_counter_max =16'd2047 ;
 	 
-	parameter [9:0] earth_height = 10'd20; 	 //Define the earth line
-    parameter [9:0] obstacle_height = 10'd40; 
-    parameter [9:0] pitfall_height = 10'd00; 
+	parameter [9:0] earth_height = 10'd410; 	 //Define the earth line
+    parameter [9:0] obstacle_height = 10'd390; 
+    parameter [9:0] pitfall_height = 10'd439; 
 	parameter [9:0] Screen_max = 10'd639;     // Rightmost point on the X axis of the screen
 
     logic [9:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion;
     logic [9:0] Ball_X_Pos_in, Ball_X_Motion_in, Ball_Y_Pos_in, Ball_Y_Motion_in;
     logic [15:0] frame_counter;
+	 logic [15:0] frame_counter_in;
     logic [9:0] height[frame_counter_max+Screen_max];
 
     
@@ -71,6 +71,7 @@ module  ball (  input         Clk,                // 50 MHz clock
             Ball_Y_Pos <= Ball_Y_Pos_in;
             Ball_X_Motion <= Ball_X_Motion_in;
             Ball_Y_Motion <= Ball_Y_Motion_in;
+				frame_counter <=frame_counter_in;
             
         end
     end
@@ -104,19 +105,28 @@ module  ball (  input         Clk,                // 50 MHz clock
         // By default, keep motion and position unchanged
         Ball_X_Pos_in = Ball_X_Pos;
         Ball_Y_Pos_in = Ball_Y_Pos;
-        Ball_X_Motion_in = Ball_X_Motion;
-        Ball_Y_Motion_in = Ball_Y_Motion;
-        
+        Ball_X_Motion_in = 10'd0;
+        Ball_Y_Motion_in = 10'd0;
+        frame_counter_in = frame_counter;
         // Update position and motion only at rising edge of frame clock
         if (frame_clk_rising_edge)
         begin
+				Ball_X_Pos_in = Ball_X_Pos;
+				Ball_Y_Pos_in = Ball_Y_Pos;
+				Ball_X_Motion_in = 10'd0;
+				Ball_Y_Motion_in = 10'd0;
+				frame_counter_in = frame_counter + 16'd1;
+        
+				if(frame_counter + 16'd1 == frame_counter_max)
+       
+					frame_counter_in = 16'd0;
+//
+//           
+//            if (frame_counter < frame_counter_max)
+//                frame_counter_in = frame_counter+16'd1;
+//            else
+//                frame_counter_in = frame_counter_max;
 
-            Ball_X_Motion_in = 10'd0;
-            Ball_Y_Motion_in = 10'd0;
-            if (frame_counter<=frame_counter_max)
-                frame_counter <= frame_counter+1;
-            else 
-                frame_counter <= frame_counter_max;
             // Be careful when using comparators with "logic" datatype because compiler treats 
             //   both sides of the operator as UNSIGNED numbers.
             // e.g. Ball_Y_Pos - Ball_Size <= Ball_Y_Min 
@@ -180,7 +190,7 @@ module  ball (  input         Clk,                // 50 MHz clock
 			// 				end
 			// 				default: ;
 			// 			endcase
-			// 		end
+			 		//end
             // Update the ball's position with its motion
             Ball_X_Pos_in = Ball_X_Pos + Ball_X_Motion;
             Ball_Y_Pos_in = Ball_Y_Pos + Ball_Y_Motion;
@@ -209,7 +219,7 @@ module  ball (  input         Clk,                // 50 MHz clock
     always_comb begin
 
     //Judge whether the pixel is black
-        if (DrawY<=height[frame_counter+DrawX]) //get the height threshold  
+        if (DrawY>=height[frame_counter+DrawX]) //get the height threshold  
             is_black = 1'b1;
         else
             is_black = 1'b0;
