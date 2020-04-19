@@ -12,7 +12,7 @@
 //    For use with ECE 385 Lab 8                                         --
 //    UIUC ECE Department                                                --
 //-------------------------------------------------------------------------
-
+// yyq yyq
 
 module  ball ( input         Clk,                // 50 MHz clock
                              Reset,              // Active-high reset signal
