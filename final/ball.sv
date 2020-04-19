@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------
-//    Stickman.sv
+//    Stickman.sv teach yyq hhhhei
 //    Adapted from Ball.sv, lab8                                         --
 //    Viral Mehta                                                        --
 //    Spring 2005                                                        --
