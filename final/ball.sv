@@ -14,15 +14,15 @@ module  ball ( 	input       Clk,                // 50 MHz clock
                	output logic  is_ball             // Whether current pixel belongs to ball or background
               );
     
-    parameter [9:0] X_Head = 10'd200;     // Head position on the X axis (640)
-    parameter [9:0] Y_Head = 10'd320;     // Head position on the Y axis (480)
+    parameter [9:0] X_TopLeft = 10'd200;     // TopLeft position on the X axis (640)
+    parameter [9:0] Y_TopLeft = 10'd320;     // TopLeft position on the Y axis (480)
 
     parameter [9:0] Y_Min = 10'd10;         // Ceil
-    parameter [9:0] Y_Max = 10'd300;        // Floor
+    parameter [9:0] Y_Max = 10'd350;        // Floor
     parameter [9:0] Y_Step = 10'd2;         // Jump size on the Y axis
 
-    parameter [9:0] Height = 10'd20;        // Height of the stickman
-    parameter [9:0] Width = 10'd6;          // Width of the stickman
+    parameter [9:0] Height = 10'd16;        // Height of the stickman
+    parameter [9:0] Width = 10'd8;          // Width of the stickman
     
     logic [9:0] X_Pos, X_Motion, Y_Pos, Y_Motion;
     logic [9:0] X_Pos_in, X_Motion_in, Y_Pos_in, Y_Motion_in;
@@ -40,8 +40,8 @@ module  ball ( 	input       Clk,                // 50 MHz clock
     begin
         if (Reset)
         begin
-            X_Pos <= X_Head;
-            Y_Pos <= Y_Head;
+            X_Pos <= X_TopLeft;
+            Y_Pos <= Y_TopLeft;
             X_Motion <= 10'd0;
             Y_Motion <= 10'd0;
         end
@@ -85,8 +85,8 @@ module  ball ( 	input       Clk,                // 50 MHz clock
             // fall because of gravity
             else
             begin
-                if (Y_Pos < Y_Max)
-                    Y_Motion_in = 1'b1;
+                if (Y_Pos + Height < Y_Max)
+                    Y_Motion_in = Y_Step;
                 else
                     Y_Motion_in = 10'd0;
 			end
@@ -102,21 +102,82 @@ module  ball ( 	input       Clk,                // 50 MHz clock
     // Compute whether the pixel corresponds to the stickman or not
     /* Since the multiplicants are required to be signed, we have to first cast them
        from logic to int (signed by default) before they are multiplied. */
-    int relativeX, relativeY;
-    assign relativeX = DrawX - X_Pos;
-    assign relativeY = DrawY - Y_Pos;
+    int X_coor, Y_coor;
+    assign X_coor = DrawX - X_Pos;
+    assign Y_coor = DrawY - Y_Pos;
+    
+    logic [5:0] sprite_addr;
+    logic [7:0] sprite_data;
+    assign sprite_addr = Y_coor + 16 * 'h00;
+
+    stickman_rom my_stickman_rom(.addr(sprite_addr), .data(sprite_data));
+
 
     always_comb begin
 
-        if ( (relativeX>=-2 && relativeX<=2  && relativeY>=0 && relativeY<=9) 
-		    || (relativeX>=-5 && relativeX<=-3 && relativeY>=10 && relativeY<=18) 
-			 || (relativeX<=5  && relativeX>=3  && relativeY>=10 && relativeY<=18) )
+        if ( X_coor >= 0 && X_coor < Width && Y_coor >= 0 && Y_coor < Height && sprite_data[X_coor] == 1'b1 )
             is_ball = 1'b1;
         else
             is_ball = 1'b0;
-        /* The ball's (pixelated) circle is generated using the standard circle formula.  Note that while 
-           the single line is quite powerful descriptively, it causes the synthesis tool to use up three
-           of the 12 available multipliers on the chip! */
+
     end
     
+endmodule
+
+
+
+module stickman_rom (
+                        input [10:0] addr,
+                        output [7:0] data
+                    );
+    
+    parameter ADDR_WIDTH = 5;
+    parameter DATA_WIDTH = 8;
+    //logic [ADDR_WIDTH-1:0] addr_reg;
+
+    // ROM definition				
+    parameter [0:2**ADDR_WIDTH-1][DATA_WIDTH-1:0] ROM = {
+        
+        // code x00
+        8'b00000000, // 0
+        8'b00000000, // 1
+        8'b00010000, // 2    *
+        8'b00111000, // 3   ***
+        8'b01101100, // 4  ** **
+        8'b11000110, // 5 **   **
+        8'b11000110, // 6 **   **
+        8'b11111110, // 7 *******
+        8'b11000110, // 8 **   **
+        8'b11000110, // 9 **   **
+        8'b11000110, // a **   **
+        8'b11000110, // b **   **
+        8'b00000000, // c
+        8'b00000000, // d
+        8'b00000000, // e
+        8'b00000000, // f
+
+
+        // code x01
+        8'b00000000, // 0
+        8'b00000000, // 1
+        8'b01111110, // 2  ******
+        8'b10000001, // 3 *      *
+        8'b10100101, // 4 * *  * *
+        8'b10000001, // 5 *      *
+        8'b10000001, // 6 *      *
+        8'b10111101, // 7 * **** *
+        8'b10011001, // 8 *  **  *
+        8'b10000001, // 9 *      *
+        8'b10000001, // a *      *
+        8'b01111110, // b  ******
+        8'b00000000, // c
+        8'b00000000, // d
+        8'b00000000, // e
+        8'b00000000 // f
+
+    };
+
+
+    assign data = ROM[addr];
+
 endmodule
