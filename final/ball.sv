@@ -1,5 +1,6 @@
 //-------------------------------------------------------------------------
-//    Ball.sv                                                            --
+//    Stickman.sv
+//    Adapted from Ball.sv, lab8                                         --
 //    Viral Mehta                                                        --
 //    Spring 2005                                                        --
 //                                                                       --
@@ -142,18 +143,7 @@ module  ball ( input         Clk,                // 50 MHz clock
             Ball_X_Pos_in = Ball_X_Pos + Ball_X_Motion;
             Ball_Y_Pos_in = Ball_Y_Pos + Ball_Y_Motion;
         end
-        
-        /**************************************************************************************
-            ATTENTION! Please answer the following quesiton in your lab report! Points will be allocated for the answers!
-            Hidden Question #2/2:
-               Notice that Ball_Y_Pos is updated using Ball_Y_Motion. 
-              Will the new value of Ball_Y_Motion be used when Ball_Y_Pos is updated, or the old? 
-              What is the difference between writing
-                "Ball_Y_Pos_in = Ball_Y_Pos + Ball_Y_Motion;" and 
-                "Ball_Y_Pos_in = Ball_Y_Pos + Ball_Y_Motion_in;"?
-              How will this impact behavior of the ball during a bounce, and how might that interact with a response to a keypress?
-              Give an answer in your Post-Lab.
-        **************************************************************************************/
+
     end
     
     // Compute whether the pixel corresponds to ball or background
