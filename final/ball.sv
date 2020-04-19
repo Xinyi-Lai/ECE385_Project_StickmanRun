@@ -14,20 +14,19 @@ module  ball ( 	input       Clk,                // 50 MHz clock
                	output logic  is_ball             // Whether current pixel belongs to ball or background
               );
     
-    parameter [9:0] X_TopLeft = 10'd200;     // TopLeft position on the X axis (640)
-    parameter [9:0] Y_TopLeft = 10'd320;     // TopLeft position on the Y axis (480)
+    parameter [9:0] X_TopLeft = 10'd100;     // TopLeft position on the X axis (640)
+    parameter [9:0] Y_TopLeft = 10'd280;     // TopLeft position on the Y axis (480)
 
     parameter [9:0] Y_Min = 10'd10;         // Ceil
     parameter [9:0] Y_Max = 10'd350;        // Floor
-    parameter [9:0] Y_Step = 10'd2;         // Jump size on the Y axis
+    parameter [9:0] Y_Step = 10'd4;         // Jump size on the Y axis
 
-    parameter [9:0] Height = 10'd16;        // Height of the stickman
-    parameter [9:0] Width = 10'd8;          // Width of the stickman
+    parameter [9:0] Height = 10'd120;        // Height of the stickman
+    parameter [9:0] Width = 10'd84;          // Width of the stickman
     
     logic [9:0] X_Pos, X_Motion, Y_Pos, Y_Motion;
     logic [9:0] X_Pos_in, X_Motion_in, Y_Pos_in, Y_Motion_in;
-    
-
+    logic [9:0] page_cnt, page_cnt_in;      // Page 1-9, (0-8)
 
     // Detect rising edge of frame_clk
     logic frame_clk_delayed, frame_clk_rising_edge;
@@ -44,6 +43,7 @@ module  ball ( 	input       Clk,                // 50 MHz clock
             Y_Pos <= Y_TopLeft;
             X_Motion <= 10'd0;
             Y_Motion <= 10'd0;
+            page_cnt <= 4'd0;
         end
         else
         begin
@@ -51,6 +51,10 @@ module  ball ( 	input       Clk,                // 50 MHz clock
             Y_Pos <= Y_Pos_in;
             X_Motion <= X_Motion_in;
             Y_Motion <= Y_Motion_in;
+            if (page_cnt_in == 9'd18)	// 9*2
+                page_cnt <= 4'd0;
+            else
+                page_cnt <= page_cnt_in;
         end
     end
 
@@ -62,6 +66,7 @@ module  ball ( 	input       Clk,                // 50 MHz clock
         Y_Pos_in = Y_Pos;
         X_Motion_in = X_Motion;
         Y_Motion_in = Y_Motion;
+        page_cnt_in = page_cnt;
         
         // Update position and motion only at rising edge of frame clock
         if (frame_clk_rising_edge)
@@ -70,6 +75,7 @@ module  ball ( 	input       Clk,                // 50 MHz clock
             //   both sides of the operator as UNSIGNED numbers.
             // e.g. Ball_Y_Pos - Ball_Size <= Ball_Y_Min 
             // If Ball_Y_Pos is 0, then Ball_Y_Pos - Ball_Size will not be -4, but rather a large positive number.
+            
             
             // X position does not change
             X_Motion_in = 10'd0;
@@ -85,7 +91,10 @@ module  ball ( 	input       Clk,                // 50 MHz clock
             // fall because of gravity
             else
             begin
-                if (Y_Pos + Height < Y_Max)
+					 // increment frame counter
+					 page_cnt_in = page_cnt+1;
+					 
+					 if (Y_Pos + Height < Y_Max)
                     Y_Motion_in = Y_Step;
                 else
                     Y_Motion_in = 10'd0;
@@ -106,78 +115,17 @@ module  ball ( 	input       Clk,                // 50 MHz clock
     assign X_coor = DrawX - X_Pos;
     assign Y_coor = DrawY - Y_Pos;
     
-    logic [5:0] sprite_addr;
-    logic [7:0] sprite_data;
-    assign sprite_addr = Y_coor + 16 * 'h00;
-
+    logic [10:0] sprite_addr;
+    logic [0:83] sprite_data;
+    assign sprite_addr = Y_coor + Height * (page_cnt>>1);
     stickman_rom my_stickman_rom(.addr(sprite_addr), .data(sprite_data));
 
 
     always_comb begin
-
         if ( X_coor >= 0 && X_coor < Width && Y_coor >= 0 && Y_coor < Height && sprite_data[X_coor] == 1'b1 )
             is_ball = 1'b1;
         else
             is_ball = 1'b0;
-
     end
     
-endmodule
-
-
-
-module stickman_rom (
-                        input [10:0] addr,
-                        output [7:0] data
-                    );
-    
-    parameter ADDR_WIDTH = 5;
-    parameter DATA_WIDTH = 8;
-    //logic [ADDR_WIDTH-1:0] addr_reg;
-
-    // ROM definition				
-    parameter [0:2**ADDR_WIDTH-1][DATA_WIDTH-1:0] ROM = {
-        
-        // code x00
-        8'b00000000, // 0
-        8'b00000000, // 1
-        8'b00010000, // 2    *
-        8'b00111000, // 3   ***
-        8'b01101100, // 4  ** **
-        8'b11000110, // 5 **   **
-        8'b11000110, // 6 **   **
-        8'b11111110, // 7 *******
-        8'b11000110, // 8 **   **
-        8'b11000110, // 9 **   **
-        8'b11000110, // a **   **
-        8'b11000110, // b **   **
-        8'b00000000, // c
-        8'b00000000, // d
-        8'b00000000, // e
-        8'b00000000, // f
-
-
-        // code x01
-        8'b00000000, // 0
-        8'b00000000, // 1
-        8'b01111110, // 2  ******
-        8'b10000001, // 3 *      *
-        8'b10100101, // 4 * *  * *
-        8'b10000001, // 5 *      *
-        8'b10000001, // 6 *      *
-        8'b10111101, // 7 * **** *
-        8'b10011001, // 8 *  **  *
-        8'b10000001, // 9 *      *
-        8'b10000001, // a *      *
-        8'b01111110, // b  ******
-        8'b00000000, // c
-        8'b00000000, // d
-        8'b00000000, // e
-        8'b00000000 // f
-
-    };
-
-
-    assign data = ROM[addr];
-
 endmodule
