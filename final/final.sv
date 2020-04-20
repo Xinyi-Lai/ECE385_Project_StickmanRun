@@ -49,8 +49,11 @@ module lab8( input               CLOCK_50,
     logic Reset_h, Clk;
     logic [7:0] keycode;
 	 logic [9:0] DrawX, DrawY;
-	 logic is_ball;
+     logic [15:0] frame_counter;
+	 logic is_coin;
 	 logic is_black;
+     logic is_board;
+     logic is_score;
     
     assign Clk = CLOCK_50;
     always_ff @ (posedge Clk) begin
@@ -120,11 +123,15 @@ module lab8( input               CLOCK_50,
 
     
     // Which signal should be frame_clk? --> "One way to keep track of frames is simply by keeping track of tile Vertical Sync (vs) signal"
-    ball ball_instance(	.*,						// Clk, DrawX, DrawY, is_ball
+    coin coin_instance(	.*,						// Clk, DrawX, DrawY, is_ball
 								.Reset(Reset_h), 		// Active-high reset signal
-								.frame_clk(VGA_VS), 	// The clock indicating a new frame (~60Hz)
+								.frame_clk(VGA_VS) 	// The clock indicating a new frame (~60Hz)
 	 );
 	 
+	 score_keep myscore_keep (.*,						// Clk, DrawX, DrawY, is_ball
+								.Reset(Reset_h), 		// Active-high reset signal
+								.frame_clk(VGA_VS) 	// The clock indicating a new frame (~60Hz)
+	 );
     
     color_mapper color_instance(.*); 	// is_ball, DrawX, DrawY, VGA_R, VGA_G, VGA_B
 
