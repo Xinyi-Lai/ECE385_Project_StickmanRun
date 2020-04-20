@@ -42,7 +42,7 @@ module lab8( input               CLOCK_50,
     logic [7:0] keycode;
 	logic [9:0] DrawX, DrawY;
     logic [9:0] GroundY, StickmanBottom;
-	logic is_stickman, is_ground;
+	logic is_stickman, is_ground, is_coin;
     logic [3:0] status;
     logic playing;
     assign playing = status[2];
@@ -125,12 +125,12 @@ module lab8( input               CLOCK_50,
 							.frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
 	);
 
-    ground my_ground (  .*,                     // Clk, DrawX, DrawY, is_ground, keycode, GroundY, playing
-                        .Reset(Reset_h), 		// Active-high reset signal
-						.frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
+    background my_background (  .*,                 // Clk, DrawX, DrawY, is_ground, is_coin, keycode, GroundY, playing
+                            .Reset(Reset_h), 		// Active-high reset signal
+						    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
     );
 
-    color_mapper color_instance(.*); 	// is_stickman, is_ground, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
+    color_mapper color_instance(.*); 	// is_stickman, is_ground, is_coin, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
 
     game_logic logic_instance(  .*,                     // Clk, keycode, status, StickmanBottom, GroundY
                                 .Reset(Reset_h), 		// Active-high reset signal
