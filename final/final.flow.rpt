@@ -1,5 +1,5 @@
 Flow report for final
-Mon Apr 20 08:28:15 2020
+Mon Apr 20 12:57:37 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Mon Apr 20 08:27:59 2020       ;
+; Flow Status                        ; Successful - Mon Apr 20 12:57:22 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; final                                       ;
 ; Top-level Entity Name              ; lab8                                        ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 3,434 / 114,480 ( 3 % )                     ;
-;     Total combinational functions  ; 2,773 / 114,480 ( 2 % )                     ;
-;     Dedicated logic registers      ; 2,108 / 114,480 ( 2 % )                     ;
-; Total registers                    ; 2227                                        ;
+; Total logic elements               ; 5,036 / 114,480 ( 4 % )                     ;
+;     Total combinational functions  ; 4,408 / 114,480 ( 4 % )                     ;
+;     Dedicated logic registers      ; 2,116 / 114,480 ( 2 % )                     ;
+; Total registers                    ; 2235                                        ;
 ; Total pins                         ; 128 / 529 ( 24 % )                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 11,392 / 3,981,312 ( < 1 % )                ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/20/2020 08:25:15 ;
+; Start date & time ; 04/20/2020 12:54:07 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; final               ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
 ; Assignment Name                      ; Value                                                      ; Default Value ; Entity Name     ; Section Id     ;
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 1098325972728.158734231413740                              ; --            ; --              ; --             ;
+; COMPILER_SIGNATURE_ID                ; 1098325972728.158735844510572                              ; --            ; --              ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                                         ; --            ; --              ; testbench      ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; testbench                                                  ; --            ; --              ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; None                                                       ; --            ; --              ; eda_simulation ;
@@ -113,11 +113,11 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:27     ; 1.0                     ; 4971 MB             ; 00:01:53                           ;
-; Fitter               ; 00:00:52     ; 1.1                     ; 5576 MB             ; 00:01:09                           ;
-; Assembler            ; 00:00:07     ; 1.0                     ; 4724 MB             ; 00:00:07                           ;
-; Timing Analyzer      ; 00:00:11     ; 1.1                     ; 4885 MB             ; 00:00:12                           ;
-; Total                ; 00:02:37     ; --                      ; --                  ; 00:03:21                           ;
+; Analysis & Synthesis ; 00:01:51     ; 1.0                     ; 4975 MB             ; 00:02:12                           ;
+; Fitter               ; 00:01:00     ; 1.1                     ; 5590 MB             ; 00:01:19                           ;
+; Assembler            ; 00:00:06     ; 1.0                     ; 4723 MB             ; 00:00:06                           ;
+; Timing Analyzer      ; 00:00:11     ; 1.1                     ; 4902 MB             ; 00:00:11                           ;
+; Total                ; 00:03:08     ; --                      ; --                  ; 00:03:48                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

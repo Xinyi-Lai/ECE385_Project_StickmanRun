@@ -70,13 +70,18 @@ module  score_keep ( input      Clk,                // 50 MHz clock
         // Update position and motion only at rising edge of frame clock
         if (frame_clk_rising_edge)
         begin
-            // Score_in = frame_counter/unit_distance;
-            Score_in = 8'd1; //test
+            Score_in = frame_counter/unit_distance;
         end
     end
     
-    // Compute whether the pixel corresponds to rectangular board 
-    
+
+    logic [7:0] Char_digit1, Char_digit2; // hex;where Char_digit1 is the most significant
+    logic [3:0] digit1,digit2;             //decimal
+    // Compute whether the pixel corresponds to rectangular board
+    assign  digit1 = Score/10;
+    assign  digit2 = Score%10;
+    assign  Char_digit1 = {4'h3,digit1};
+    assign  Char_digit2 = {4'h3,digit2};
     always_comb begin
         if ( DrawX >= Board_X_Pos && DrawX < Board_X_Pos + Board_Width &&
              DrawY >= Board_Y_Pos && DrawY < Board_Y_Pos + Board_Height ) 
@@ -90,14 +95,13 @@ module  score_keep ( input      Clk,                // 50 MHz clock
     /* Since the dividers are required to be signed, we have to first cast them
        from logic to int (signed by default) before they are divided. */
 
-    int Scaled_X,scaled_Y; //the scaled difference betweent th epixel and the origin of score
-    assign Scaled_X = (DrawX-Score1_X_Pos)/5;
-    assign Scaled_Y = (DrawY-Score1_Y_Pos)/5;
+    int Scaled_X,Scaled_Y; //the scaled difference betweent th epixel and the origin of score
+    
     // assign DistX = DrawX - Ball_X_Pos;
     // assign DistY = DrawY - Ball_Y_Pos;
     // assign Size = Ball_Size;
     logic [10:0]sprite_adress;
-    logic [7:0] sprite_data;
+    logic [0:7] sprite_data;
 
      always_comb begin
         if ( DrawX >=Score1_X_Pos && DrawX < Score1_X_Pos + Text_Width*5 &&
@@ -106,7 +110,7 @@ module  score_keep ( input      Clk,                // 50 MHz clock
             score_on = 1'b1;
             Scaled_X = (DrawX-Score1_X_Pos)/5;
             Scaled_Y = (DrawY-Score1_Y_Pos)/5;
-            sprite_adress = Scaled_Y + Text_Height* 8'h30;
+            sprite_adress = Scaled_Y + Text_Height* Char_digit1;
         end
         else if ( DrawX >=Score2_X_Pos && DrawX < Score2_X_Pos + Text_Width*5 &&
              DrawY >=Score2_Y_Pos && DrawY < Score2_Y_Pos + Text_Height*5) 
@@ -114,13 +118,14 @@ module  score_keep ( input      Clk,                // 50 MHz clock
             score_on = 1'b1;
             Scaled_X = (DrawX-Score2_X_Pos)/5;
             Scaled_Y = (DrawY-Score2_Y_Pos)/5;
-            sprite_adress = Scaled_Y + Text_Height* 8'h31;
+            sprite_adress = Scaled_Y + Text_Height* Char_digit2;
             
         end
         else 
         begin
-            score1_on = 1'b0;
-            score2_on = 1'b0;
+            score_on = 1'b0;
+            Scaled_X = 0;
+            Scaled_Y = 0;
             sprite_adress = 10'b0;
         end
     end
