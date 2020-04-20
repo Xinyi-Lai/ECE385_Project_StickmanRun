@@ -5,22 +5,21 @@
 //-------------------------------------------------------------------------
 
 
-module game_logic ( input   Clk,                // 50 MHz clock
-                            Reset,              // Active-high reset signal
-                            frame_clk,          // The clock indicating a new frame (~60Hz)
-                    input [9:0] StickmanBottom, // The bottom height of the stickman
-                    input [9:0] GroundY,        // The height of floor
-				    input [7:0] keycode, 		// Accept the last received key 
-               	    output[3:0] status          // Game status {waiting, playing, win, lose}
-                );
+module game_logic ( input	Clk,				// 50 MHz clock
+							Reset,				// Active-high reset signal
+							frame_clk,			// The clock indicating a new frame (~60Hz)
+					input [9:0] StickmanBottom, GroundY, // The bottom of the stickman and current ground height
+					input [7:0] keycode,		// Accept the last received key 
+					output[3:0] status			// Game status {waiting, playing, win, lose}
+				);
 
-    logic stickman_crash, stickman_fall;
-    assign stickman_crash = StickmanBottom > GroundY;
-    assign stickman_fall = StickmanBottom >= 10'd470;
+	logic stickman_crash, stickman_fall;
+	assign stickman_crash = StickmanBottom > GroundY + 10'd50;
+	assign stickman_fall = StickmanBottom >= 10'd470;
 
     // FSM
 	enum logic [4:0] { WAIT, PLAY, WIN, LOSE, PREWAIT } curr_state, next_state;   // Internal state logic
-						
+
 	always_ff @ (posedge Clk)
 	begin
 		if (Reset)
@@ -28,7 +27,7 @@ module game_logic ( input   Clk,                // 50 MHz clock
 		else 
 			curr_state <= next_state;	
 	end
-	
+
 	always_comb
 	begin
 		// Default, nothing happens
@@ -40,7 +39,7 @@ module game_logic ( input   Clk,                // 50 MHz clock
 			WAIT:
 				if (keycode == 8'h2c)
 					next_state = PLAY;
-            PLAY:
+			PLAY:
             begin
                 if (stickman_fall || stickman_crash)
                     next_state = LOSE;
@@ -63,7 +62,9 @@ module game_logic ( input   Clk,                // 50 MHz clock
 		// Assign status
 		unique case (curr_state)
             WAIT:
-                status = 4'b1000;
+				status = 4'b1000;
+			PREWAIT:
+				status = 4'b1000;
             PLAY:
                 status = 4'b0100;
 			WIN:

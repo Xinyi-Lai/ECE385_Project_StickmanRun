@@ -6,40 +6,40 @@
 //-------------------------------------------------------------------------
 
 
-module stickman (	input	Clk,                // 50 MHz clock
-							Reset,              // Active-high reset signal
-							frame_clk,          // The clock indicating a new frame (~60Hz)
-					input   playing,       // Game status
-					input [7:0] keycode, 		// Accept the last received key 
-					input [9:0] DrawX, DrawY, // Current pixel coordinates
-					input [9:0] GroundY,      // The height of floor
-					output[9:0] StickmanBottom,// The bottom height of the stickman
-					output logic    is_stickman   // Whether current pixel belongs to ball or background
+module stickman (	input	Clk,				// 50 MHz clock
+							Reset,				// Active-high reset signal
+							frame_clk,			// The clock indicating a new frame (~60Hz)
+					input   playing,			// Game status
+					input [7:0] keycode,		// Accept the last received key 
+					input [9:0] DrawX, DrawY,	// Current pixel coordinates
+					input [9:0] GroundY,		// The height of floor
+					output[9:0] StickmanBottom,	// The bottom height of the stickman
+					output logic is_stickman	// Whether current pixel belongs to ball or background
 				);
-    
-    parameter [9:0] X_TopLeft = 10'd100;     // TopLeft position on the X axis (640)
-    parameter [9:0] Y_TopLeft = 10'd250;     // TopLeft position on the Y axis (480)
 
-    parameter [9:0] Y_Min = 10'd10;         // Ceil
-//    parameter [9:0] Y_Max = GroundY;        // Floor
-    parameter [9:0] Y_Step = 10'd8;         // Jump size on the Y axis
+	parameter [9:0] X_TopLeft = 10'd100;     // TopLeft position on the X axis (640)
+	parameter [9:0] Y_TopLeft = 10'd250;     // TopLeft position on the Y axis (480)
 
-    parameter [9:0] Height = 10'd80;        // Height of the stickman
-    parameter [9:0] Width = 10'd56;         // Width of the stickman
-    
-    logic [9:0] X_Pos, X_Motion, Y_Pos, Y_Motion;
-    logic [9:0] X_Pos_in, X_Motion_in, Y_Pos_in, Y_Motion_in;
-    logic [7:0] page_cnt, page_cnt_in;      // Page 1-9, (0-8)
-	 
-	 assign StickmanBottom = Y_TopLeft + Height;
+	parameter [9:0] Y_Min = 10'd10;         // Ceil
+//	parameter [9:0] Y_Max = GroundY;        // Floor
+	parameter [9:0] Y_Step = 10'd8;         // Jump size on the Y axis
+
+	parameter [9:0] Height = 10'd80;        // Height of the stickman
+	parameter [9:0] Width = 10'd56;         // Width of the stickman
+
+	logic [9:0] X_Pos, X_Motion, Y_Pos, Y_Motion;
+	logic [9:0] X_Pos_in, X_Motion_in, Y_Pos_in, Y_Motion_in;
+	logic [7:0] page_cnt, page_cnt_in;      // Page 1-9, (0-8)
+
+	assign StickmanBottom = Y_Pos + Height;
 
     // Detect rising edge of frame_clk
-    logic frame_clk_delayed, frame_clk_rising_edge;
-    always_ff @ (posedge Clk) begin
+	logic frame_clk_delayed, frame_clk_rising_edge;
+	always_ff @ (posedge Clk) begin
         frame_clk_delayed <= frame_clk;
         frame_clk_rising_edge <= (frame_clk == 1'b1) && (frame_clk_delayed == 1'b0);
     end
-    // Update registers
+	// Update registers
     always_ff @ (posedge Clk)
     begin
         if (Reset || !playing)
