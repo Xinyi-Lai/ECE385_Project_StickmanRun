@@ -1,15 +1,7 @@
 //-------------------------------------------------------------------------
-//      lab8.sv                                                          --
-//      Christine Chen                                                   --
-//      Fall 2014                                                        --
-//                                                                       --
-//      Modified by Po-Han Huang                                         --
-//      10/06/2017                                                       --
-//                                                                       --
-//      Fall 2017 Distribution                                           --
-//                                                                      --
-//      For use with ECE 385 Lab 8                                       --
-//      UIUC ECE Department                                              --
+//    final.sv Spring 2020										 --
+//    Adapted from lab8.sv, lab8                                 --
+//    Toplevel                                         --
 //-------------------------------------------------------------------------
 
 
@@ -48,15 +40,20 @@ module lab8( input               CLOCK_50,
     
     logic Reset_h, Clk;
     logic [7:0] keycode;
-	 logic [9:0] DrawX, DrawY;
-	 logic is_ball;
+	logic [9:0] DrawX, DrawY;
+    logic [9:0] GroundY, StickmanBottom;
+	logic is_stickman, is_ground;
+    logic [3:0] status;
+    logic playing;
+    assign playing = status[2];
     
     assign Clk = CLOCK_50;
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
     end
     
-    logic [1:0] hpi_addr;
+
+	logic [1:0] hpi_addr;
     logic [15:0] hpi_data_in, hpi_data_out;
     logic hpi_r, hpi_w, hpi_cs, hpi_reset;
     
@@ -109,33 +106,41 @@ module lab8( input               CLOCK_50,
     // You will have to generate it on your own in simulation.
     vga_clk vga_clk_instance(.inclk0(Clk), .c0(VGA_CLK));
     
-    // TODO: Fill in the connections for the rest of the modules 
-    VGA_controller vga_controller_instance(	.*,  					// Clk, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N
-															.Reset(Reset_h),	// Active-high reset signal
-															.VGA_CLK,			// 25 MHz VGA clock input
-															.DrawX,				// horizontal coordinate
-															.DrawY				// vertical coordinate
-	 );
+
+    VGA_controller vga_controller_instance(	.*,  				// Clk, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N
+											.Reset(Reset_h),	// Active-high reset signal
+                                            .VGA_CLK,			// 25 MHz VGA clock input
+                                            .DrawX,				// horizontal coordinate
+                                            .DrawY				// vertical coordinate
+	);
 
     
     // Which signal should be frame_clk? --> "One way to keep track of frames is simply by keeping track of tile Vertical Sync (vs) signal"
-    ball ball_instance(	.*,						// Clk, DrawX, DrawY, is_ball, keycode
-								.Reset(Reset_h), 		// Active-high reset signal
-								.frame_clk(VGA_VS), 	// The clock indicating a new frame (~60Hz)
-	 );
-	 
-    
-    color_mapper color_instance(.*); 	// is_ball, DrawX, DrawY, VGA_R, VGA_G, VGA_B
 
 	 
+	 
+
+    stickman my_stickman (	.*,						// Clk, DrawX, DrawY, is_stickman, keycode, GroundY, playing
+							.Reset(Reset_h), 		// Active-high reset signal
+							.frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
+	);
+
+    ground my_ground (  .*,                     // Clk, DrawX, DrawY, is_ground, keycode, GroundY, playing
+                        .Reset(Reset_h), 		// Active-high reset signal
+						.frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
+    );
+
+    color_mapper color_instance(.*); 	// is_stickman, is_ground, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
+
+    game_logic logic_instance(  .*,                     // Clk, keycode, status, StickmanBottom, GroundY
+                                .Reset(Reset_h), 		// Active-high reset signal
+							    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
+    );      
+
+
+
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode[3:0], HEX0);
     HexDriver hex_inst_1 (keycode[7:4], HEX1);
     
-    /**************************************************************************************
-        ATTENTION! Please answer the following quesiton in your lab report! Points will be allocated for the answers!
-        Hidden Question #1/2:
-        What are the advantages and/or disadvantages of using a USB interface over PS/2 interface to
-             connect to the keyboard? List any two.  Give an answer in your Post-Lab.
-    **************************************************************************************/
 endmodule
