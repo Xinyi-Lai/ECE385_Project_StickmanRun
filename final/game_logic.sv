@@ -23,7 +23,7 @@ module game_logic ( input	Clk,				// 50 MHz clock
 	always_ff @ (posedge Clk)
 	begin
 		if (Reset)
-			curr_state <= WAIT;
+			curr_state <= PLAY;
 		else 
 			curr_state <= next_state;	
 	end

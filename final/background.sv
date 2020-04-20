@@ -13,7 +13,8 @@ module background ( input  	Clk,				// 50 MHz clock
 					input [9:0]  DrawX, DrawY,	// Current pixel coordinates
 					output [9:0] GroundY, //CoinY,// The height of the floor at where the stickman stands 
 					output logic is_ground,		// Whether current pixel belongs to ground
-					output logic is_coin		// Whether current pixel belongs to coin
+					output logic is_coin,		// Whether current pixel belongs to coin
+					output logic [11:0] frame_counter
 					);
 
 	parameter [12:0] frame_counter_max = 13'd4095;
@@ -36,7 +37,8 @@ module background ( input  	Clk,				// 50 MHz clock
     logic is_coin_check[Coin_Number]; //check which coin the pixel belongs
     logic [5:0] sum_coin; //check if the pixel is in the coin 
 
-	logic [11:0] frame_counter, frame_counter_in;
+	logic [11:0] frame_counter_in;
+	// logic [11:0] frame_counter, frame_counter_in;
 	logic [9:0] height[frame_counter_max + screen_Xmax];
 
 
@@ -74,23 +76,25 @@ module background ( input  	Clk,				// 50 MHz clock
 	// store terrain and coin
 	always_comb
 	begin 
-		for (int i=0; i<screen_Xmax; i++)
-			height[i] = ground_height;
-		for (int i=screen_Xmax; i<700; i++) 
-			height[i] = pitfall_height;
-		for (int i=700; i<1000;i++) 
-			height[i] = ground_height;
-		for (int i=1000; i<1200;i++) 
-			height[i] = upstair_height;
-		for (int i=1200; i<1500;i++) 
-			height[i] = ground_height;
-		for (int i=1500; i<2000;i++) 
-			height[i] = downstair_height;
-		for (int i=2000; i<3000;i++) 
-			height[i] = ground_height;
-		for (int i=3000; i<4000;i++) 
-			height[i] = upstair_height;
-		for (int i=4000; i<frame_counter_max+screen_Xmax;i++) 
+		// for (int i=0; i<screen_Xmax; i++)
+		// 	height[i] = ground_height;
+		// for (int i=screen_Xmax; i<700; i++) 
+		// 	height[i] = pitfall_height;
+		// for (int i=700; i<1000;i++) 
+		// 	height[i] = ground_height;
+		// for (int i=1000; i<1200;i++) 
+		// 	height[i] = upstair_height;
+		// for (int i=1200; i<1500;i++) 
+		// 	height[i] = ground_height;
+		// for (int i=1500; i<2000;i++) 
+		// 	height[i] = downstair_height;
+		// for (int i=2000; i<3000;i++) 
+		// 	height[i] = ground_height;
+		// for (int i=3000; i<4000;i++) 
+		// 	height[i] = upstair_height;
+		// for (int i=4000; i<frame_counter_max+screen_Xmax;i++) 
+		// 	height[i] = ground_height;
+		for (int i= 0; i<frame_counter_max+screen_Xmax;i++) 
 			height[i] = ground_height;
 
 		Coin_frame[0] = 16'd400;

@@ -1,8 +1,8 @@
 
 State Machine - |lab8|game_logic:logic_instance|curr_state
-Name curr_state.LOSE curr_state.WIN curr_state.PLAY curr_state.WAIT curr_state.PREWAIT 
-curr_state.WAIT 0 0 0 0 0 
-curr_state.PLAY 0 0 1 1 0 
+Name curr_state.LOSE curr_state.WIN curr_state.WAIT curr_state.PLAY curr_state.PREWAIT 
+curr_state.PLAY 0 0 0 0 0 
+curr_state.WAIT 0 0 1 1 0 
 curr_state.WIN 0 1 0 1 0 
 curr_state.LOSE 1 0 0 1 0 
 curr_state.PREWAIT 0 0 0 1 1 

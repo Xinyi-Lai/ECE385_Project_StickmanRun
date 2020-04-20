@@ -42,9 +42,10 @@ module lab8( input               CLOCK_50,
     logic [7:0] keycode;
 	logic [9:0] DrawX, DrawY;
     logic [9:0] GroundY, StickmanBottom;
-	logic is_stickman, is_ground, is_coin;
+	logic is_stickman, is_ground, is_coin,is_score,is_board;
     logic [3:0] status;
     logic playing;
+	 logic [11:0] frame_counter;
     assign playing = status[2];
     
     assign Clk = CLOCK_50;
@@ -137,7 +138,11 @@ module lab8( input               CLOCK_50,
 							    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
     );      
 
+    score_keep myscore_keep (.*,						// Clk, DrawX, DrawY, is_ball
+                             .Reset(Reset_h), 		// Active-high reset signal
+							 .frame_clk(VGA_VS) 	// The clock indicating a new frame (~60Hz)
 
+	 );
 
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode[3:0], HEX0);
