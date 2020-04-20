@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------
 
 // color_mapper: Decide which color to be output to VGA for each pixel.
-module  color_mapper ( input is_stickman, is_ground,    // Whether current pixel belongs to the stickman or background
+module  color_mapper ( input is_stickman, is_ground, is_coin,    // Whether current pixel belongs to the stickman or ground or coin
                        input [3:0] status,              // Game status {waiting, playing, win, lose}
                        input [9:0] DrawX, DrawY,        // Current pixel coordinates
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
@@ -58,14 +58,18 @@ module  color_mapper ( input is_stickman, is_ground,    // Whether current pixel
                     Green = 8'h00;
                     Blue = 8'h00;
                 end
-
+                else if (is_coin == 1'b1)
+                begin
+                    Red = 8'hff;
+                    Green = 8'hff;
+                    Blue = 8'h00;
+                end
                 else if (is_ground == 1'b1)
                 begin
                     Red = 8'h40;
                     Green = 8'h40;
                     Blue = 8'h40;
                 end
-
                 else 
                 begin
                     Red = 8'h4f; 
