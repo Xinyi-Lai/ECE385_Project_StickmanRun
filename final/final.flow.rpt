@@ -1,5 +1,5 @@
 Flow report for final
-Tue Apr 21 13:15:09 2020
+Tue Apr 21 23:19:55 2020
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,22 +40,22 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Flow Failed - Tue Apr 21 13:15:09 2020      ;
+; Flow Status                        ; Successful - Tue Apr 21 23:19:55 2020       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; final                                       ;
 ; Top-level Entity Name              ; lab8                                        ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; N/A until Partition Merge                   ;
-;     Total combinational functions  ; N/A until Partition Merge                   ;
-;     Dedicated logic registers      ; N/A until Partition Merge                   ;
-; Total registers                    ; N/A until Partition Merge                   ;
-; Total pins                         ; N/A until Partition Merge                   ;
-; Total virtual pins                 ; N/A until Partition Merge                   ;
-; Total memory bits                  ; N/A until Partition Merge                   ;
-; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
-; Total PLLs                         ; N/A until Partition Merge                   ;
+; Total logic elements               ; 12,074 / 114,480 ( 11 % )                   ;
+;     Total combinational functions  ; 11,394 / 114,480 ( 10 % )                   ;
+;     Dedicated logic registers      ; 2,139 / 114,480 ( 2 % )                     ;
+; Total registers                    ; 2258                                        ;
+; Total pins                         ; 128 / 529 ( 24 % )                          ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 11,392 / 3,981,312 ( < 1 % )                ;
+; Embedded Multiplier 9-bit elements ; 12 / 532 ( 2 % )                            ;
+; Total PLLs                         ; 2 / 4 ( 50 % )                              ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/21/2020 13:12:50 ;
+; Start date & time ; 04/21/2020 23:15:30 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; final               ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
 ; Assignment Name                      ; Value                                                      ; Default Value ; Entity Name     ; Section Id     ;
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 10995770589191.158744597006772                             ; --            ; --              ; --             ;
+; COMPILER_SIGNATURE_ID                ; 10995770589191.158748213004680                             ; --            ; --              ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                                         ; --            ; --              ; testbench      ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; testbench                                                  ; --            ; --              ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                                                ; --            ; --              ; eda_simulation ;
@@ -115,8 +115,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:02:20     ; 1.0                     ; 645 MB              ; 00:00:24                           ;
-; Total                ; 00:02:20     ; --                      ; --                  ; 00:00:24                           ;
+; Analysis & Synthesis ; 00:01:57     ; 1.0                     ; 898 MB              ; 00:02:17                           ;
+; Fitter               ; 00:01:00     ; 1.1                     ; 1817 MB             ; 00:01:34                           ;
+; Assembler            ; 00:00:04     ; 1.0                     ; 610 MB              ; 00:00:04                           ;
+; Timing Analyzer      ; 00:00:07     ; 1.3                     ; 853 MB              ; 00:00:08                           ;
+; EDA Netlist Writer   ; 00:01:05     ; 1.0                     ; 698 MB              ; 00:00:13                           ;
+; Total                ; 00:04:13     ; --                      ; --                  ; 00:04:16                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -126,6 +130,10 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis ; DESKTOP-EEUJEK2  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-EEUJEK2  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-EEUJEK2  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-EEUJEK2  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-EEUJEK2  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -133,6 +141,10 @@ refer to the applicable agreement for further details.
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off final -c final
+quartus_fit --read_settings_files=off --write_settings_files=off final -c final
+quartus_asm --read_settings_files=off --write_settings_files=off final -c final
+quartus_sta final -c final
+quartus_eda --read_settings_files=off --write_settings_files=off final -c final
 
 
 

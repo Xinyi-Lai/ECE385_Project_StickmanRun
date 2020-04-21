@@ -19,16 +19,11 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
     assign VGA_B = Blue;
 
     // Find Cover Color
-    logic [7:0] CoverGray;
-	 assign CoverGray = 8'h40
-//    logic [18:0] sprite_adress;
-//    // Cast to int first
-//    int Xint, Yint;
-//    assign Xint = DrawX;
-//    assign Yint = DrawY;
-//    assign sprite_adress = Yint * 640 + Xint;
-//    cover_rom my_cover(.addr(sprite_adress), .data(CoverGray));
-
+    logic cover_is_black;
+    logic [0:639]cover_row;
+    cover_rom my_cover(.addr(DrawY), .data(cover_row));
+    assign cover_is_black = cover_row[DrawX];
+	// assign CoverGray = 8'h40;
     
     // Assign color
     always_comb
@@ -40,9 +35,16 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
             // waiting & prewaiting
             4'b1000:
             begin
-                Red = CoverGray;
-                Green = CoverGray;
-                Blue = CoverGray;
+                if (cover_is_black) begin
+                    Red = 8'h00;
+                    Green = 8'h00;
+                    Blue = 8'h00;
+                end
+                else begin
+                    Red = 8'hff;
+                    Green = 8'hff;
+                    Blue = 8'hff;
+                end
             end
 
             // win
