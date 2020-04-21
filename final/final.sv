@@ -43,7 +43,7 @@ module lab8( input               CLOCK_50,
     logic [9:0] DrawX, DrawY;
     logic [11:0] frame_counter;
     logic [9:0] GroundY, StickmanTop;
-	logic is_stickman, is_ground, is_coin;
+	logic is_stickman, is_ground, is_coin, is_score;
     logic [3:0] status;
     logic playing;
     assign playing = status[2];
@@ -135,15 +135,18 @@ module lab8( input               CLOCK_50,
 						    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
     );
 
-    color_mapper color_instance(.*); 	// is_stickman, is_ground, is_coin, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
+    score my_score(.*,  // Clk, DrawX, DrawY, is_score, is_board, playing, frame_counter
+                    .Reset(Reset_h) 		// Active-high reset signal
+    );
+
+    color_mapper color_instance(.*); 	// is_stickman, is_ground, is_coin, is_coin, is_board, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
 
     game_logic logic_instance(  .*,                     // Clk, keycode, status, StickmanBottom, GroundY, CoinFrameX[3], CoinY[3], CoinStatus, frame_counter
                                 .Reset(Reset_h), 		// Active-high reset signal
 							    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
     );      
 
-
-
+    
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode[3:0], HEX0);
     HexDriver hex_inst_1 (keycode[7:4], HEX1);
