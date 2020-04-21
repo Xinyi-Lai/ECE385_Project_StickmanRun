@@ -12,8 +12,8 @@ module stickman (	input	Clk,				// 50 MHz clock
 					input   playing,			// Game status
 					input [7:0] keycode,		// Accept the last received key 
 					input [9:0] DrawX, DrawY,	// Current pixel coordinates
-					input [9:0] GroundY,		// The height of floor
-					output[9:0] StickmanBottom,	// The bottom height of the stickman
+                    input [9:0] GroundY,		// The height of floor
+					output[9:0] StickmanTop,	// The top height of the stickman
 					output logic is_stickman	// Whether current pixel belongs to ball or background
 				);
 
@@ -31,7 +31,7 @@ module stickman (	input	Clk,				// 50 MHz clock
 	logic [9:0] X_Pos_in, X_Motion_in, Y_Pos_in, Y_Motion_in;
 	logic [7:0] page_cnt, page_cnt_in;      // Page 1-9, (0-8)
 
-	assign StickmanBottom = Y_Pos + Height;
+	assign StickmanTop = Y_Pos;
 
     // Detect rising edge of frame_clk
 	logic frame_clk_delayed, frame_clk_rising_edge;

@@ -11,32 +11,39 @@ module background ( input  	Clk,				// 50 MHz clock
 							frame_clk,			// The clock indicating a new frame (~60Hz)
 					input	playing,			// Game status
 					input [9:0]  DrawX, DrawY,	// Current pixel coordinates
-					output [9:0] GroundY, //CoinY,// The height of the floor at where the stickman stands 
+					input [2:0] CoinStatus,	// From game_logic
+					output [12:0] CoinFrameX[3],// Frame X location of the 3 coins
+					output [9:0] CoinY[3],		// Frame Y location of the 3 coins
+					output [9:0] GroundY, 		// The height of the floor at where the stickman stands
+					output logic [11:0] frame_counter, // Frame counter, to game_logic
 					output logic is_ground,		// Whether current pixel belongs to ground
 					output logic is_coin		// Whether current pixel belongs to coin
 					);
 
-	parameter [12:0] frame_counter_max = 13'd4095;
+	parameter [12:0] frame_counter_max = 13'd3095;
 	parameter [9:0] screen_Xmax = 10'd639;			// Rightmost point on the X axis of the screen
 	parameter [9:0] stickman_X = 10'd100 + 10'd20;	// centerleft x position of the stickman
 	
 	parameter [9:0] ground_height = 10'd360;		// attitude of ground
 	parameter [9:0] upstair_height = 10'd300;
 	parameter [9:0] downstair_height = 10'd420;
-	parameter [9:0] obstacle_height = 10'd340; 
-	parameter [9:0] pitfall_height = 10'd479; 
+	parameter [9:0] pitfall_height = 10'd479;
+	parameter [9:0] obstacle_height = 10'd340;
 
 	parameter [9:0] Coin_Size = 10'd10;				// Coin size
 	parameter [9:0] Coin_height = 10'd120;			// Coin height above ground
-	parameter [5:0] Coin_Number = 6'd4;				// the number of coins in the background
-	int Coin_X_Pos[Coin_Number]; 			// the X position on the screen
-    int Coin_Y_Pos[Coin_Number]; 			// the Y position on the screen
-    int Coin_frame[Coin_Number]; 			// the actual coin position in the whole background 
+	parameter [2:0] Coin_Number = 3'd3;				// the number of coins in the background
+	
+	//logic [12:0] CoinFrameX[3];		// the frame X position of the 3 coins, pass to game_logic
+	//logic [9:0] CoinY[3];				// the Y position of the 3 coins, pass to game_logic
+	//logic [2:0] CoinStatus;			// status of the 3 coins, pass from game_logic
+
+	//assign CoinStatus = 3'b111;
 
     logic is_coin_check[Coin_Number]; //check which coin the pixel belongs
     logic [5:0] sum_coin; //check if the pixel is in the coin 
 
-	logic [11:0] frame_counter, frame_counter_in;
+	logic [11:0] frame_counter_in;
 	logic [9:0] height[frame_counter_max + screen_Xmax];
 
 
@@ -86,17 +93,20 @@ module background ( input  	Clk,				// 50 MHz clock
 			height[i] = ground_height;
 		for (int i=1500; i<2000;i++) 
 			height[i] = downstair_height;
-		for (int i=2000; i<3000;i++) 
+		for (int i=2000; i<2500;i++) 
 			height[i] = ground_height;
-		for (int i=3000; i<4000;i++) 
+		for (int i=2500; i<3000;i++) 
 			height[i] = upstair_height;
-		for (int i=4000; i<frame_counter_max+screen_Xmax;i++) 
+		for (int i=3000; i<frame_counter_max+screen_Xmax;i++) 
 			height[i] = ground_height;
 
-		Coin_frame[0] = 16'd400;
-		Coin_frame[1] = 16'd820;
-		Coin_frame[2] = 16'd1400;
-		Coin_frame[3] = 16'd2820;
+		CoinFrameX[0] = 16'd670;
+		CoinFrameX[1] = 16'd1100;
+		CoinFrameX[2] = 16'd1500;
+		CoinY[0] = height[CoinFrameX[0]-50] - Coin_height;
+		CoinY[1] = height[CoinFrameX[1]] - Coin_height;
+		CoinY[2] = height[CoinFrameX[2]] - Coin_height;
+
 	end
 
 
@@ -109,20 +119,29 @@ module background ( input  	Clk,				// 50 MHz clock
 			is_ground = 1'b0;
 	end
 
+	// output 
+	assign GroundY = height[frame_counter + stickman_X];
+
 
 	// Check coin
+
+	// convert into int
+	int Coin_frame[Coin_Number]; 			//the actual coin position in the whole background 
+	int Coin_X_Pos[Coin_Number], Coin_Y_Pos[Coin_Number]; 	// the X,Y position on the screen
 	int DistX[Coin_Number], DistY[Coin_Number], Size;
 	assign Size = Coin_Size;
 
 	always_comb 
-	begin 
-		for (int i=0; i<Coin_Number; i++) begin
+	begin
+
+		for  (int i=0; i<Coin_Number; i++) begin
+			Coin_frame[i] = CoinFrameX[i];
 			Coin_X_Pos[i] = Coin_frame[i] - frame_counter;
-			Coin_Y_Pos[i] = height[Coin_frame[i]] - Coin_height;
+			Coin_Y_Pos[i] = CoinY[i];
 			DistX[i] = DrawX - Coin_X_Pos[i];
 			DistY[i] = DrawY - Coin_Y_Pos[i];
-			
-			if ( ( DistX[i]*DistX[i] + DistY[i]*DistY[i] ) <= (Size*Size) )
+
+			if ( (CoinStatus[i] == 1'b1) && (DistX[i]*DistX[i] + DistY[i]*DistY[i]) <= (Size*Size) )
 				is_coin_check[i] = 1'b1;
 			else
 				is_coin_check[i] = 1'b0;
@@ -139,8 +158,5 @@ module background ( input  	Clk,				// 50 MHz clock
 			is_coin = 1'b0;
 	end
 	
-	// output 
-	assign GroundY = height[frame_counter + stickman_X];
-
 
 endmodule
