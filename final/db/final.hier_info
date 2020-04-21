@@ -68705,7 +68705,6 @@ is_coin <= LessThan4.DB_MAX_OUTPUT_PORT_TYPE
 |lab8|score:my_score
 Clk => ~NO_FANOUT~
 Reset => ~NO_FANOUT~
-frame_clk => ~NO_FANOUT~
 playing => ~NO_FANOUT~
 DrawX[0] => LessThan0.IN20
 DrawX[0] => LessThan1.IN20
