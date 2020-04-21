@@ -91,18 +91,18 @@ module background ( input  	Clk,				// 50 MHz clock
 			height[i] = upstair_height;
 		for (int i=1200; i<1500;i++) 
 			height[i] = ground_height;
-		for (int i=1500; i<2000;i++) 
+		for (int i=1500; i<1700;i++) 
 			height[i] = downstair_height;
-		for (int i=2000; i<2500;i++) 
+		for (int i=1700; i<2000;i++) 
 			height[i] = ground_height;
-		for (int i=2500; i<3000;i++) 
+		for (int i=2000; i<2300;i++) 
 			height[i] = upstair_height;
-		for (int i=3000; i<frame_counter_max+screen_Xmax;i++) 
+		for (int i=2300; i<frame_counter_max+screen_Xmax;i++) 
 			height[i] = ground_height;
 
-		CoinFrameX[0] = 16'd670;
-		CoinFrameX[1] = 16'd1100;
-		CoinFrameX[2] = 16'd1500;
+		CoinFrameX[0] = 13'd670;
+		CoinFrameX[1] = 13'd1100;
+		CoinFrameX[2] = 13'd1500;
 		CoinY[0] = height[CoinFrameX[0]-50] - Coin_height;
 		CoinY[1] = height[CoinFrameX[1]] - Coin_height;
 		CoinY[2] = height[CoinFrameX[2]] - Coin_height;

@@ -68,7 +68,9 @@ module game_logic ( input	Clk,				// 50 MHz clock
 			PLAY:
             begin
                 if (stickman_fall || stickman_crash)
-                    next_state = LOSE;
+					next_state = LOSE;
+				else if (frame_counter >= 13'd3000)
+					next_state = WIN;
             end
 
 			WIN:

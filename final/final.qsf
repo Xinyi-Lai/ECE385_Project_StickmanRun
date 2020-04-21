@@ -588,10 +588,11 @@ set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name EDA_TIME_SCALE "1 us" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_FILE testbench.sv -section_id testbench
+set_global_assignment -name SYSTEMVERILOG_FILE sprites_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE score.sv
 set_global_assignment -name SYSTEMVERILOG_FILE background.sv
 set_global_assignment -name SYSTEMVERILOG_FILE game_logic.sv
 set_global_assignment -name SYSTEMVERILOG_FILE stickman.sv
-set_global_assignment -name SYSTEMVERILOG_FILE stickman_rom.sv
 set_global_assignment -name QIP_FILE lab8_soc/synthesis/lab8_soc.qip
 set_global_assignment -name SDC_FILE final.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE VGA_controller.sv

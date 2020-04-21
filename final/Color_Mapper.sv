@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------
 
 // color_mapper: Decide which color to be output to VGA for each pixel.
-module  color_mapper ( input is_stickman, is_ground, is_coin,    // Whether current pixel belongs to the stickman or ground or coin
+module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Whether current pixel belongs to the stickman or ground or coin
                        input [3:0] status,              // Game status {waiting, playing, win, lose}
                        input [9:0] DrawX, DrawY,        // Current pixel coordinates
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
@@ -52,26 +52,27 @@ module  color_mapper ( input is_stickman, is_ground, is_coin,    // Whether curr
             // playing
             4'b0100:
             begin
-                if (is_stickman == 1'b1) 
-                begin
+                if (is_stickman == 1'b1) begin
                     Red = 8'h00;
                     Green = 8'h00;
                     Blue = 8'h00;
                 end
-                else if (is_coin == 1'b1)
-                begin
+                else if (is_coin == 1'b1) begin
                     Red = 8'hff;
                     Green = 8'hff;
                     Blue = 8'h00;
                 end
-                else if (is_ground == 1'b1)
-                begin
+                else if (is_ground == 1'b1) begin
                     Red = 8'h40;
                     Green = 8'h40;
                     Blue = 8'h40;
                 end
-                else 
-                begin
+                else if (is_score == 1'b1) begin
+                    Red = 8'h10;
+                    Green = 8'h10; 
+                    Blue = 8'h10;
+                end
+                else begin
                     Red = 8'h4f; 
                     Green = 8'h4f;
                     Blue = 8'h7f - {1'b0, DrawX[9:3]};
@@ -80,9 +81,9 @@ module  color_mapper ( input is_stickman, is_ground, is_coin,    // Whether curr
 
             default: 
 				begin
-					 Red = 8'h00;
-                Green = 8'h00;
-                Blue = 8'h00;
+					Red = 8'h00;
+                    Green = 8'h00;
+                    Blue = 8'h00;
 				end
 
         endcase
