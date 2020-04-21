@@ -8,14 +8,33 @@
 module game_logic ( input	Clk,				// 50 MHz clock
 							Reset,				// Active-high reset signal
 							frame_clk,			// The clock indicating a new frame (~60Hz)
-					input [9:0] StickmanBottom, GroundY, // The bottom of the stickman and current ground height
-					input [7:0] keycode,		// Accept the last received key 
-					output[3:0] status			// Game status {waiting, playing, win, lose}
+					input [7:0] keycode,		// Accept the last received key
+					input [9:0] StickmanTop, GroundY, // The bottom of the stickman and current ground height
+					input [11:0] frame_counter, // Frame counter, to game_logic
+					input [12:0] CoinFrameX[3],// Frame X location of the 3 coins, from background.sv
+					input [9:0] CoinY[3],		// Frame Y location of the 3 coins, from background.sv
+					output [2:0] CoinStatus,	// From game_logic, to background.sv
+					output logic [3:0] status	// Game status {waiting, playing, win, lose}
 				);
 
+	// check stickman lose
 	logic stickman_crash, stickman_fall;
-	assign stickman_crash = StickmanBottom > GroundY + 10'd50;
-	assign stickman_fall = StickmanBottom >= 10'd470;
+	assign stickman_crash = StickmanTop + 10'd50 > GroundY ;
+	assign stickman_fall = StickmanTop + 10'd50 >= 10'd470;
+
+	// check coin collection
+	logic [11:0] stickman_left_frame;
+	assign stickman_left_frame	= 12'd100 + frame_counter;
+	logic coin_collected[3];
+	logic [2:0] CoinStatus_in;
+	always_comb
+	begin
+		for (int i=0; i<3; i++) begin
+			coin_collected[i] = (CoinFrameX[i] > stickman_left_frame + 12'd10) && (CoinFrameX[i] < stickman_left_frame + 12'd46)
+									&& (CoinY[i] > StickmanTop + 12'd10) && (CoinY[i] < StickmanTop + 12'd74);
+		end
+	end
+
 
     // FSM
 	enum logic [4:0] { WAIT, PLAY, WIN, LOSE, PREWAIT } curr_state, next_state;   // Internal state logic
@@ -23,15 +42,22 @@ module game_logic ( input	Clk,				// 50 MHz clock
 	always_ff @ (posedge Clk)
 	begin
 		if (Reset)
+		begin
 			curr_state <= WAIT;
+			CoinStatus <= 3'b111;
+		end
 		else 
-			curr_state <= next_state;	
+		begin
+			curr_state <= next_state;
+			CoinStatus = CoinStatus_in;
+		end
 	end
 
 	always_comb
 	begin
 		// Default, nothing happens
 		next_state = curr_state;
+		CoinStatus_in = 3'b111;
 		
 		// Assign next state
 		unique case (curr_state)
@@ -61,16 +87,19 @@ module game_logic ( input	Clk,				// 50 MHz clock
 
 		// Assign status
 		unique case (curr_state)
-            WAIT:
+			WAIT, PREWAIT:
 				status = 4'b1000;
-			PREWAIT:
-				status = 4'b1000;
-            PLAY:
-                status = 4'b0100;
 			WIN:
                 status = 4'b0010;
             LOSE:
-                status = 4'b0001;
+				status = 4'b0001;
+			PLAY:
+			begin
+				status = 4'b0100;
+				for (int i=0; i<3; i++) begin
+					CoinStatus_in[i] = CoinStatus[i] && (!coin_collected[i]);
+				end
+			end
             default: 
                 status = 4'b0000;   // will never happen
 		endcase
