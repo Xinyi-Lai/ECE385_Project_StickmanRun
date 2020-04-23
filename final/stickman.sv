@@ -9,7 +9,7 @@
 module stickman (	input	Clk,				// 50 MHz clock
 							Reset,				// Active-high reset signal
 							frame_clk,			// The clock indicating a new frame (~60Hz)
-					input   playing,			// Game status
+					input   restart,			// Game status
 					input [7:0] keycode,		// Accept the last received key 
 					input [9:0] DrawX, DrawY,	// Current pixel coordinates
                     input [9:0] GroundY,		// The height of floor
@@ -42,7 +42,7 @@ module stickman (	input	Clk,				// 50 MHz clock
 	// Update registers
     always_ff @ (posedge Clk)
     begin
-        if (Reset || !playing)
+        if (Reset || restart)
         begin
             X_Pos <= X_TopLeft;
             Y_Pos <= Y_TopLeft;

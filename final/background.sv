@@ -9,7 +9,7 @@
 module background ( input  	Clk,				// 50 MHz clock
 							Reset,				// Active-high reset signal
 							frame_clk,			// The clock indicating a new frame (~60Hz)
-					input	playing,			// Game status
+					input	restart,			// Game status
 					input [9:0]  DrawX, DrawY,	// Current pixel coordinates
 					input [2:0] CoinStatus,	// From game_logic
 					output [12:0] CoinFrameX[3],// Frame X location of the 3 coins
@@ -56,7 +56,7 @@ module background ( input  	Clk,				// 50 MHz clock
 	// Update registers
 	always_ff @ (posedge Clk)
 	begin
-		if (Reset || !playing)
+		if (Reset || restart)
 			frame_counter <= 12'd0;
 		else
 			frame_counter <= frame_counter_in;

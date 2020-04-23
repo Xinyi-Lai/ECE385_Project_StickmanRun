@@ -43,10 +43,10 @@ module lab8( input               CLOCK_50,
     logic [9:0] DrawX, DrawY;
     logic [11:0] frame_counter;
     logic [9:0] GroundY, StickmanTop;
-	logic is_stickman, is_ground, is_coin, is_score;
+	logic is_stickman, is_ground, is_coin, is_score,is_star;
     logic [3:0] status;
-    logic playing;
-    assign playing = status[2];
+    logic restart;
+    assign restart = status[3];
 
     logic [9:0] CoinY[3];
     logic [12:0] CoinFrameX[3];
@@ -135,7 +135,11 @@ module lab8( input               CLOCK_50,
 						    .frame_clk(VGA_VS)   	// The clock indicating a new frame (~60Hz)
     );
 
-    score my_score(.*,  // Clk, DrawX, DrawY, is_score, is_board, playing, frame_counter
+    score my_score(.*,  // Clk, DrawX, DrawY, is_score, is_board, frame_counter
+                    .Reset(Reset_h) 		// Active-high reset signal
+    );
+
+    star my_star(.*,  // Clk, DrawX, DrawY,CoinStatus is_star, frame_counter
                     .Reset(Reset_h) 		// Active-high reset signal
     );
 

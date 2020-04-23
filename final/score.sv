@@ -7,7 +7,7 @@
 
 module score ( 	input		Clk,                // 50 MHz clock
 							Reset,              // Active-high reset signal
-				input		playing,			// From game_logic
+				
 				input [9:0] DrawX, DrawY,       // Current pixel coordinates
 				input [11:0] frame_counter, 	// Accept from background
 				output logic is_score           // Whether current pixel belongs to ball or background

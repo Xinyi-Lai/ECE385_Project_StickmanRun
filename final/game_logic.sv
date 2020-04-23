@@ -49,7 +49,7 @@ module game_logic ( input	Clk,				// 50 MHz clock
 		else 
 		begin
 			curr_state <= next_state;
-			CoinStatus = CoinStatus_in;
+			CoinStatus <= CoinStatus_in;
 		end
 	end
 
@@ -57,7 +57,7 @@ module game_logic ( input	Clk,				// 50 MHz clock
 	begin
 		// Default, nothing happens
 		next_state = curr_state;
-		CoinStatus_in = 3'b111;
+		CoinStatus_in = CoinStatus;
 		
 		// Assign next state
 		unique case (curr_state)
@@ -90,9 +90,12 @@ module game_logic ( input	Clk,				// 50 MHz clock
 		// Assign status
 		unique case (curr_state)
 			WAIT, PREWAIT:
-				status = 4'b1000;
+			begin
+				status = 4'b1000; 
+				CoinStatus_in = 3'b111;
+			end
 			WIN:
-                status = 4'b0010;
+            status = 4'b0010;
             LOSE:
 				status = 4'b0001;
 			PLAY:
