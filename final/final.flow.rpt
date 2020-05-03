@@ -1,5 +1,5 @@
 Flow report for final
-Fri Apr 24 00:02:28 2020
+Mon May 04 03:39:49 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,22 +40,22 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri Apr 24 00:02:28 2020       ;
+; Flow Status                        ; Successful - Mon May 04 03:39:48 2020       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; final                                       ;
 ; Top-level Entity Name              ; lab8                                        ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 13,073 / 114,480 ( 11 % )                   ;
-;     Total combinational functions  ; 12,403 / 114,480 ( 11 % )                   ;
-;     Dedicated logic registers      ; 2,139 / 114,480 ( 2 % )                     ;
-; Total registers                    ; 2258                                        ;
-; Total pins                         ; 128 / 529 ( 24 % )                          ;
+; Total logic elements               ; 19,353                                      ;
+;     Total combinational functions  ; 18,397                                      ;
+;     Dedicated logic registers      ; 2,200                                       ;
+; Total registers                    ; 2200                                        ;
+; Total pins                         ; 128                                         ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 11,392 / 3,981,312 ( < 1 % )                ;
-; Embedded Multiplier 9-bit elements ; 12 / 532 ( 2 % )                            ;
-; Total PLLs                         ; 2 / 4 ( 50 % )                              ;
+; Total memory bits                  ; 11,392                                      ;
+; Embedded Multiplier 9-bit elements ; 12                                          ;
+; Total PLLs                         ; 2                                           ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/23/2020 23:54:06 ;
+; Start date & time ; 05/04/2020 03:33:08 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; final               ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
 ; Assignment Name                      ; Value                                                      ; Default Value ; Entity Name     ; Section Id     ;
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 1098325972728.158765724404184                              ; --            ; --              ; --             ;
+; COMPILER_SIGNATURE_ID                ; 1098325972728.158853438710292                              ; --            ; --              ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                                         ; --            ; --              ; testbench      ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; testbench                                                  ; --            ; --              ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                                                ; --            ; --              ; eda_simulation ;
@@ -92,6 +92,7 @@ refer to the applicable agreement for further details.
 ; MISC_FILE                            ; lab8_soc/synthesis/../lab8_soc.cmp                         ; --            ; --              ; --             ;
 ; MISC_FILE                            ; lab8_soc/synthesis/../../lab8_soc.qsys                     ; --            ; --              ; --             ;
 ; MISC_FILE                            ; vga_clk.ppf                                                ; --            ; --              ; --             ;
+; NUM_PARALLEL_PROCESSORS              ; All                                                        ; --            ; --              ; --             ;
 ; PARTITION_COLOR                      ; -- (Not supported for targeted family)                     ; --            ; DE2_115_Default ; Top            ;
 ; PARTITION_COLOR                      ; -- (Not supported for targeted family)                     ; --            ; lab8            ; Top            ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family)                     ; --            ; DE2_115_Default ; Top            ;
@@ -103,6 +104,7 @@ refer to the applicable agreement for further details.
 ; SLD_FILE                             ; lab8_soc/synthesis/lab8_soc.regmap                         ; --            ; --              ; --             ;
 ; SLD_FILE                             ; lab8_soc/synthesis/lab8_soc.debuginfo                      ; --            ; --              ; --             ;
 ; SLD_INFO                             ; QSYS_NAME lab8_soc HAS_SOPCINFO 1 GENERATION_ID 1584458968 ; --            ; lab8_soc        ; --             ;
+; SMART_RECOMPILE                      ; On                                                         ; Off           ; --              ; --             ;
 ; SOPCINFO_FILE                        ; lab8_soc/synthesis/../../lab8_soc.sopcinfo                 ; --            ; --              ; --             ;
 ; SYNTHESIS_ONLY_QIP                   ; On                                                         ; --            ; --              ; --             ;
 ; TOP_LEVEL_ENTITY                     ; lab8                                                       ; final         ; --              ; --             ;
@@ -115,12 +117,8 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:04:15     ; 1.0                     ; 5024 MB             ; 00:04:34                           ;
-; Fitter               ; 00:01:49     ; 1.0                     ; 5612 MB             ; 00:02:20                           ;
-; Assembler            ; 00:00:07     ; 1.0                     ; 4741 MB             ; 00:00:07                           ;
-; Timing Analyzer      ; 00:00:16     ; 1.2                     ; 4974 MB             ; 00:00:16                           ;
-; EDA Netlist Writer   ; 00:01:15     ; 1.0                     ; 4847 MB             ; 00:00:46                           ;
-; Total                ; 00:07:42     ; --                      ; --                  ; 00:08:03                           ;
+; Analysis & Synthesis ; 00:06:33     ; 1.0                     ; 5093 MB             ; 00:06:51                           ;
+; Total                ; 00:06:33     ; --                      ; --                  ; 00:06:51                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -130,10 +128,6 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis ; DESKTOP-UBSEC7K  ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; DESKTOP-UBSEC7K  ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; DESKTOP-UBSEC7K  ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; DESKTOP-UBSEC7K  ; Windows 10 ; 10.0       ; x86_64         ;
-; EDA Netlist Writer   ; DESKTOP-UBSEC7K  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -141,10 +135,6 @@ refer to the applicable agreement for further details.
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off final -c final
-quartus_fit --read_settings_files=off --write_settings_files=off final -c final
-quartus_asm --read_settings_files=off --write_settings_files=off final -c final
-quartus_sta final -c final
-quartus_eda --read_settings_files=off --write_settings_files=off final -c final
 
 
 

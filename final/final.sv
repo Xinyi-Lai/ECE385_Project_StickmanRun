@@ -43,7 +43,7 @@ module lab8( input               CLOCK_50,
     logic [9:0] DrawX, DrawY;
     logic [11:0] frame_counter;
     logic [9:0] GroundY, StickmanTop;
-	logic is_stickman, is_ground, is_coin, is_score,is_star;
+	logic is_stickman, is_ground, is_coin, is_score,is_star, is_human, is_win_text, is_lose_text;
     logic [3:0] status;
     logic restart;
     assign restart = status[3];
@@ -140,6 +140,17 @@ module lab8( input               CLOCK_50,
     );
 
     star my_star(.*,  // Clk, DrawX, DrawY,CoinStatus is_star, frame_counter
+                    .Reset(Reset_h) 		// Active-high reset signal
+    );
+    
+    human my_human(.*,  //Clk ,DrawX,DrawY, is_human               // 50 MHz clock
+					.Reset(Reset_h) 		// Active-high reset signal
+			  );
+
+    win_text my_win(.*,  // Clk, DrawX, DrawY, is_win_text, 
+                    .Reset(Reset_h) 		// Active-high reset signal
+    );
+    lose_text my_lose(.*,  // Clk, DrawX, DrawY, is_lose_text, 
                     .Reset(Reset_h) 		// Active-high reset signal
     );
 
