@@ -81,10 +81,8 @@ begin
     if (select_coin)
         playing_coin <= 1'b1;
     else begin
-        if (read_counter_coin == 18'd10094)
+        if (read_counter_coin >= 18'd10094)
             playing_coin <= 1'b0;
-        else
-            playing_coin <= playing_coin;
     end
 
     // win and gameover signal can be shorter or longer, should only play once and need to stop immediately

@@ -20,7 +20,7 @@ assign SDIN = (out)? serial_data: 1'bz;
 // state:3 send register address
 // state:4 wait for ACK
 // state:5 send data to registers
-//	state:6 wait for ACK
+// state:6 wait for ACK
 // state:7 stop conition
 //============================================
 //	clock generation and number of clock ticks
