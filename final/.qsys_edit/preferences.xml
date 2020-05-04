@@ -7,6 +7,7 @@
    <irq preferredWidth="34" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
- <window width="1100" height="800" x="0" y="0" />
+ <library
+   expandedCategories="Library/Processors and Peripherals/Hard Processor Components,Library/DSP,Library/Processors and Peripherals/Co-Processors/Nios II Custom Instructions,Library/Basic Functions,Library/Interface Protocols/Ethernet/10G to 1G Multi-rate Ethernet,Library/Basic Functions/DMA/mSGDMA Sub-core,Library/DSP/Video and Image Processing,Library/Basic Functions/DMA,Project,Library/Qsys Interconnect/Memory-Mapped,Library/Memory Interfaces and Controllers/Memory Interfaces with UniPHY,Library/Interface Protocols/Serial,Library/Memory Interfaces and Controllers/Memory Interfaces with ALTMEMPHY,Library/Memory Interfaces and Controllers,Library/Interface Protocols/PCI Express,Library/Processors and Peripherals,Library/University Program/Audio &amp; Video/Video,Library/Qsys Interconnect,Library/University Program,Library,Library/University Program/Audio &amp; Video,Library/Processors and Peripherals/Co-Processors,Library/Memory Interfaces and Controllers/SDRAM,Library/Interface Protocols/Ethernet,Library/Interface Protocols" />
+ <window width="2586" height="1546" x="-13" y="-13" />
 </preferences>

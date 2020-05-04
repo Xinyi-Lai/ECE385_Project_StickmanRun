@@ -1,5 +1,5 @@
 Flow report for final
-Tue Apr 21 23:19:55 2020
+Mon May 04 09:47:17 2020
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,22 +40,22 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Tue Apr 21 23:19:55 2020       ;
+; Flow Status                        ; Successful - Mon May 04 09:47:17 2020       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; final                                       ;
-; Top-level Entity Name              ; lab8                                        ;
+; Top-level Entity Name              ; final_top                                   ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 12,074 / 114,480 ( 11 % )                   ;
-;     Total combinational functions  ; 11,394 / 114,480 ( 10 % )                   ;
-;     Dedicated logic registers      ; 2,139 / 114,480 ( 2 % )                     ;
-; Total registers                    ; 2258                                        ;
-; Total pins                         ; 128 / 529 ( 24 % )                          ;
+; Total logic elements               ; 12,402 / 114,480 ( 11 % )                   ;
+;     Total combinational functions  ; 11,741 / 114,480 ( 10 % )                   ;
+;     Dedicated logic registers      ; 2,260 / 114,480 ( 2 % )                     ;
+; Total registers                    ; 2379                                        ;
+; Total pins                         ; 170 / 529 ( 32 % )                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 11,392 / 3,981,312 ( < 1 % )                ;
+; Total memory bits                  ; 1,260,752 / 3,981,312 ( 32 % )              ;
 ; Embedded Multiplier 9-bit elements ; 12 / 532 ( 2 % )                            ;
-; Total PLLs                         ; 2 / 4 ( 50 % )                              ;
+; Total PLLs                         ; 3 / 4 ( 75 % )                              ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 04/21/2020 23:15:30 ;
+; Start date & time ; 05/04/2020 09:43:34 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; final               ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
 ; Assignment Name                      ; Value                                                      ; Default Value ; Entity Name     ; Section Id     ;
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 10995770589191.158748213004680                             ; --            ; --              ; --             ;
+; COMPILER_SIGNATURE_ID                ; 10995770589191.158855661305280                             ; --            ; --              ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                                         ; --            ; --              ; testbench      ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; testbench                                                  ; --            ; --              ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                                                ; --            ; --              ; eda_simulation ;
@@ -89,15 +89,18 @@ refer to the applicable agreement for further details.
 ; ENABLE_SIGNALTAP                     ; On                                                         ; --            ; --              ; --             ;
 ; MAX_CORE_JUNCTION_TEMP               ; 85                                                         ; --            ; --              ; --             ;
 ; MIN_CORE_JUNCTION_TEMP               ; 0                                                          ; --            ; --              ; --             ;
+; MISC_FILE                            ; USB_Clock_PLL_inst.v                                       ; --            ; --              ; --             ;
+; MISC_FILE                            ; USB_Clock_PLL_bb.v                                         ; --            ; --              ; --             ;
+; MISC_FILE                            ; USB_Clock_PLL.ppf                                          ; --            ; --              ; --             ;
 ; MISC_FILE                            ; lab8_soc/synthesis/../lab8_soc.cmp                         ; --            ; --              ; --             ;
 ; MISC_FILE                            ; lab8_soc/synthesis/../../lab8_soc.qsys                     ; --            ; --              ; --             ;
 ; MISC_FILE                            ; vga_clk.ppf                                                ; --            ; --              ; --             ;
 ; PARTITION_COLOR                      ; -- (Not supported for targeted family)                     ; --            ; DE2_115_Default ; Top            ;
-; PARTITION_COLOR                      ; -- (Not supported for targeted family)                     ; --            ; lab8            ; Top            ;
+; PARTITION_COLOR                      ; -- (Not supported for targeted family)                     ; --            ; final_top       ; Top            ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family)                     ; --            ; DE2_115_Default ; Top            ;
-; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family)                     ; --            ; lab8            ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; -- (Not supported for targeted family)                     ; --            ; final_top       ; Top            ;
 ; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family)                     ; --            ; DE2_115_Default ; Top            ;
-; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family)                     ; --            ; lab8            ; Top            ;
+; PARTITION_NETLIST_TYPE               ; -- (Not supported for targeted family)                     ; --            ; final_top       ; Top            ;
 ; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                                        ; --            ; --              ; --             ;
 ; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                      ; --            ; --              ; --             ;
 ; SLD_FILE                             ; lab8_soc/synthesis/lab8_soc.regmap                         ; --            ; --              ; --             ;
@@ -105,7 +108,7 @@ refer to the applicable agreement for further details.
 ; SLD_INFO                             ; QSYS_NAME lab8_soc HAS_SOPCINFO 1 GENERATION_ID 1584458968 ; --            ; lab8_soc        ; --             ;
 ; SOPCINFO_FILE                        ; lab8_soc/synthesis/../../lab8_soc.sopcinfo                 ; --            ; --              ; --             ;
 ; SYNTHESIS_ONLY_QIP                   ; On                                                         ; --            ; --              ; --             ;
-; TOP_LEVEL_ENTITY                     ; lab8                                                       ; final         ; --              ; --             ;
+; TOP_LEVEL_ENTITY                     ; final_top                                                  ; final         ; --              ; --             ;
 ; USE_SIGNALTAP_FILE                   ; stp1.stp                                                   ; --            ; --              ; --             ;
 +--------------------------------------+------------------------------------------------------------+---------------+-----------------+----------------+
 
@@ -115,12 +118,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:57     ; 1.0                     ; 898 MB              ; 00:02:17                           ;
-; Fitter               ; 00:01:00     ; 1.1                     ; 1817 MB             ; 00:01:34                           ;
-; Assembler            ; 00:00:04     ; 1.0                     ; 610 MB              ; 00:00:04                           ;
-; Timing Analyzer      ; 00:00:07     ; 1.3                     ; 853 MB              ; 00:00:08                           ;
-; EDA Netlist Writer   ; 00:01:05     ; 1.0                     ; 698 MB              ; 00:00:13                           ;
-; Total                ; 00:04:13     ; --                      ; --                  ; 00:04:16                           ;
+; Analysis & Synthesis ; 00:01:58     ; 1.0                     ; 929 MB              ; 00:02:21                           ;
+; Fitter               ; 00:01:04     ; 1.1                     ; 1843 MB             ; 00:01:43                           ;
+; Assembler            ; 00:00:05     ; 1.0                     ; 620 MB              ; 00:00:05                           ;
+; Timing Analyzer      ; 00:00:08     ; 1.4                     ; 871 MB              ; 00:00:09                           ;
+; EDA Netlist Writer   ; 00:00:16     ; 1.0                     ; 723 MB              ; 00:00:13                           ;
+; Total                ; 00:03:31     ; --                      ; --                  ; 00:04:31                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

@@ -184,7 +184,6 @@ endmodule
 
 
 
-
 module stickman_rom ( input [9:0] addr, output [55:0] data);
 
 	//parameter ADDR_WIDTH = 10;
