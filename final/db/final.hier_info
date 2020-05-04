@@ -127,9 +127,9 @@ DRAM_CKE <= lab8_soc:m_lab8_soc.sdram_wire_cke
 DRAM_WE_N <= lab8_soc:m_lab8_soc.sdram_wire_we_n
 DRAM_CS_N <= lab8_soc:m_lab8_soc.sdram_wire_cs_n
 DRAM_CLK <= lab8_soc:m_lab8_soc.sdram_c1k_clk
-SW[0] => SW[0].IN1
-SW[1] => SW[1].IN1
-SW[2] => SW[2].IN1
+SW[0] => ~NO_FANOUT~
+SW[1] => ~NO_FANOUT~
+SW[2] => ~NO_FANOUT~
 SW[3] => ~NO_FANOUT~
 SW[4] => ~NO_FANOUT~
 SW[5] => ~NO_FANOUT~
@@ -72818,6 +72818,7 @@ status[1] <= status[1].DB_MAX_OUTPUT_PORT_TYPE
 status[2] <= status[2].DB_MAX_OUTPUT_PORT_TYPE
 status[3] <= CoinStatus_in.DB_MAX_OUTPUT_PORT_TYPE
 status[4] <= status[4].DB_MAX_OUTPUT_PORT_TYPE
+coin_collide <= always1.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |final_top|HexDriver:hex_inst_0

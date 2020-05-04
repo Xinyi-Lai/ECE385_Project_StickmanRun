@@ -15,7 +15,8 @@ module game_logic ( input	Clk,				// 50 MHz clock
 					input [9:0] CoinY[3],		// Frame Y location of the 3 coins, from background.sv
 					output [2:0] CoinStatus,	// From game_logic, to background.sv
 					output logic [1:0] level_status,  //judge which level the player choose
-					output logic [4:0] status	// Game status {waiting, playing, win, lose}
+					output logic [4:0] status,	// Game status {selecting, waiting, playing, win, lose}
+					output logic coin_collide
 				);
 
 	// check stickman lose
@@ -36,7 +37,13 @@ module game_logic ( input	Clk,				// 50 MHz clock
 									&& (CoinY[i] > StickmanTop + 12'd10) && (CoinY[i] < StickmanTop + 12'd74);
 		end
 	end
-
+	always_comb
+	begin
+		if ( coin_collected[0] == 1'b1 || coin_collected[1] == 1'b1 || coin_collected[2] == 1'b1 )
+			coin_collide = 1'b1;
+		else
+			coin_collide = 1'b0;
+	end
 
     // FSM
 	enum logic [4:0] { SELECT, WAIT, PLAY, WIN, LOSE, PREWAIT } curr_state, next_state;   // Internal state logic
