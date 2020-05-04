@@ -39,10 +39,10 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY lab8
+set_global_assignment -name TOP_LEVEL_ENTITY final_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:55:02  SEPTEMBER 28, 2015"
-set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.0.0 Lite Edition"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity DE2_115_Default -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -entity DE2_115_Default -section_id Top
 set_global_assignment -name LL_ROOT_REGION ON -entity DE2_115_Default -section_id "Root Region"
@@ -581,30 +581,36 @@ set_global_assignment -name EDA_TEST_BENCH_NAME testbench -section_id eda_simula
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id testbench
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "10000 ns" -section_id testbench
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME stickman -section_id testbench
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
 set_global_assignment -name EDA_TIME_SCALE "1 us" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_FILE testbench.sv -section_id testbench
-set_global_assignment -name SYSTEMVERILOG_FILE sprites_rom.sv
-set_global_assignment -name SYSTEMVERILOG_FILE score.sv
-set_global_assignment -name SYSTEMVERILOG_FILE background.sv
-set_global_assignment -name SYSTEMVERILOG_FILE game_logic.sv
-set_global_assignment -name SYSTEMVERILOG_FILE stickman.sv
-set_global_assignment -name QIP_FILE lab8_soc/synthesis/lab8_soc.qip
-set_global_assignment -name SDC_FILE final.sdc
-set_global_assignment -name SYSTEMVERILOG_FILE VGA_controller.sv
-set_global_assignment -name QIP_FILE vga_clk.qip
-set_global_assignment -name SYSTEMVERILOG_FILE hpi_io_intf.sv
-set_global_assignment -name SYSTEMVERILOG_FILE HexDriver.sv
-set_global_assignment -name SYSTEMVERILOG_FILE final.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Color_Mapper.sv
-set_global_assignment -name SYSTEMVERILOG_FILE testbench.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Star_Coin.sv
-set_global_assignment -name SYSTEMVERILOG_FILE text.sv
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE final_top.sv
+set_global_assignment -name SDC_FILE final.sdc
+set_global_assignment -name VERILOG_FILE Sound_Top.v
+set_global_assignment -name SYSTEMVERILOG_FILE game_logic.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Star_Coin.sv
+set_global_assignment -name SYSTEMVERILOG_FILE score.sv
+set_global_assignment -name SYSTEMVERILOG_FILE background.sv
+set_global_assignment -name SYSTEMVERILOG_FILE stickman.sv
+set_global_assignment -name SYSTEMVERILOG_FILE text.sv
+set_global_assignment -name SYSTEMVERILOG_FILE sprites_rom.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Color_Mapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE VGA_controller.sv
+set_global_assignment -name SYSTEMVERILOG_FILE HexDriver.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hpi_io_intf.sv
+set_global_assignment -name VERILOG_FILE I2C_Protocol.v
+set_global_assignment -name QIP_FILE SoundROM_win.qip
+set_global_assignment -name QIP_FILE SoundROM_gameover.qip
+set_global_assignment -name QIP_FILE SoundROM_coin.qip
+set_global_assignment -name QIP_FILE USB_Clock_PLL.qip
+set_global_assignment -name QIP_FILE vga_clk.qip
+set_global_assignment -name QIP_FILE lab8_soc/synthesis/lab8_soc.qip
+set_global_assignment -name SYSTEMVERILOG_FILE testbench.sv
