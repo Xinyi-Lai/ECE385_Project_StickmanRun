@@ -1,5 +1,5 @@
 EDA Netlist Writer report for final
-Sun May 03 12:49:25 2020
+Mon May 04 08:13:36 2020
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -36,7 +36,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Sun May 03 12:49:25 2020 ;
+; EDA Netlist Writer Status ; Successful - Mon May 04 08:13:36 2020 ;
 ; Revision Name             ; final                                 ;
 ; Top-level Entity Name     ; lab8                                  ;
 ; Family                    ; Cyclone IV E                          ;
@@ -88,7 +88,7 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Sun May 03 12:47:53 2020
+    Info: Processing started: Mon May 04 08:12:01 2020
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off final -c final
 Warning (202000): An incorrect timescale is selected for the Verilog Output (.VO) file of this PLL design. It's required that the timescale should be 1 ps when simulating a PLL design in a third party EDA tool.
 Info (204019): Generated file final_7_1200mv_85c_slow.vo in folder "D:/2020SP/ECE385/Final project/ECE385_FinalProject/final/simulation/modelsim/" for EDA simulation tool
@@ -103,9 +103,9 @@ Info (204019): Generated file final_7_1200mv_0c_v_slow.sdo in folder "D:/2020SP/
 Info (204019): Generated file final_min_1200mv_0c_v_fast.sdo in folder "D:/2020SP/ECE385/Final project/ECE385_FinalProject/final/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file final_v.sdo in folder "D:/2020SP/ECE385/Final project/ECE385_FinalProject/final/simulation/modelsim/" for EDA simulation tool
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 4912 megabytes
-    Info: Processing ended: Sun May 03 12:49:25 2020
-    Info: Elapsed time: 00:01:32
-    Info: Total CPU time (on all processors): 00:00:53
+    Info: Peak virtual memory: 4914 megabytes
+    Info: Processing ended: Mon May 04 08:13:36 2020
+    Info: Elapsed time: 00:01:35
+    Info: Total CPU time (on all processors): 00:00:52
 
 

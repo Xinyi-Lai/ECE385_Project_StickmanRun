@@ -1,11 +1,12 @@
 
 State Machine - |lab8|game_logic:logic_instance|curr_state
-Name curr_state.LOSE curr_state.WIN curr_state.PLAY curr_state.WAIT curr_state.PREWAIT 
-curr_state.WAIT 0 0 0 0 0 
-curr_state.PLAY 0 0 1 1 0 
-curr_state.WIN 0 1 0 1 0 
-curr_state.LOSE 1 0 0 1 0 
-curr_state.PREWAIT 0 0 0 1 1 
+Name curr_state.PREWAIT curr_state.LOSE curr_state.WIN curr_state.PLAY curr_state.SELECT curr_state.WAIT 
+curr_state.WAIT 0 0 0 0 0 0 
+curr_state.SELECT 0 0 0 0 1 1 
+curr_state.PLAY 0 0 0 1 0 1 
+curr_state.WIN 0 0 1 0 0 1 
+curr_state.LOSE 0 1 0 0 0 1 
+curr_state.PREWAIT 1 0 0 0 0 1 
 
 State Machine - |lab8|lab8_soc:m_lab8_soc|lab8_soc_sdram:sdram|m_next
 Name m_next.010000000 m_next.000010000 m_next.000001000 m_next.000000001 

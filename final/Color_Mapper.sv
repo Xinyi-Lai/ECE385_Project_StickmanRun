@@ -7,8 +7,8 @@
 // color_mapper: Decide which color to be output to VGA for each pixel.
 module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Whether current pixel belongs to the stickman or ground or coin
                        input is_star,is_human,
-                       input is_lose_text, is_win_text,
-                       input [3:0] status,              // Game status {waiting, playing, win, lose}
+                       input is_lose_text, is_win_text,is_select_text,
+                       input [4:0] status,              // Game status {selecting, waiting, playing, win, lose}
                        input [9:0] DrawX, DrawY,        // Current pixel coordinates
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
@@ -29,6 +29,7 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
        // Find End background Color
     logic end_is_win;
     logic end_is_lose;
+    logic is_white;
 
     logic [0:639]end_row;
     end_rom my_end_lose(.addr(DrawY), .data(end_row));
@@ -38,12 +39,44 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
     // Assign color
     always_comb
     begin
+        if (DrawY < 70)
+            is_white = 1'b1;
+        else
+            is_white = 1'b0;
+    end
 
-        // status = {waiting, playing, win, lose}
+    always_comb
+    begin
+
+        // status = {selecting waiting, playing, win, lose}
         unique case (status)
 
+            // selecting
+            5'b10000:
+            begin
+                if (is_select_text) begin
+                    Red = 8'h00;
+                    Green = 8'h00;
+                    Blue = 8'h00;
+                end
+                else if (is_white) begin
+                    Red = 8'hff;
+                    Green = 8'hff;
+                    Blue = 8'hff;
+                end
+                else if (end_is_win) begin
+                    Red = 8'h00;
+                    Green = 8'h00;
+                    Blue = 8'h00;
+                end
+                else begin
+                    Red = 8'hff;
+                    Green = 8'hff;
+                    Blue = 8'hff;
+                end
+            end
             // waiting & prewaiting
-            4'b1000:
+            5'b01000:
             begin
                 if (cover_is_black) begin
                     Red = 8'h00;
@@ -58,7 +91,7 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
             end
 
             // win
-            4'b0010:
+            5'b00010:
             begin
 
                 if (is_win_text) begin
@@ -91,7 +124,7 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
             end
 
             // lose
-            4'b0001:
+            4'b00001:
             begin
                 if (is_lose_text)begin  //
                     Red = 8'hff;
@@ -116,7 +149,7 @@ module  color_mapper ( input is_stickman, is_ground, is_coin, is_score,    // Wh
             end
 
             // playing
-            4'b0100:
+            4'b00100:
             begin
                 if (is_stickman == 1'b1) begin
                     Red = 8'h00;

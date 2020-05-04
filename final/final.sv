@@ -43,8 +43,9 @@ module lab8( input               CLOCK_50,
     logic [9:0] DrawX, DrawY;
     logic [11:0] frame_counter;
     logic [9:0] GroundY, StickmanTop;
-	logic is_stickman, is_ground, is_coin, is_score,is_star, is_human, is_win_text, is_lose_text;
-    logic [3:0] status;
+	logic is_stickman, is_ground, is_coin, is_score,is_star, is_human, is_win_text, is_lose_text,is_select_text;
+    logic [4:0] status;  // {selecting, waiting, playing,  win, lose}
+    logic [1:0] level_status; // 01 = level 1; 10 = level 2
     logic restart;
     assign restart = status[3];
 
@@ -153,7 +154,9 @@ module lab8( input               CLOCK_50,
     lose_text my_lose(.*,  // Clk, DrawX, DrawY, is_lose_text, 
                     .Reset(Reset_h) 		// Active-high reset signal
     );
-
+    select_text my_select(.*,  // Clk, DrawX, DrawY, is_lose_text, 
+                    .Reset(Reset_h) 		// Active-high reset signal
+    );
     color_mapper color_instance(.*); 	// is_stickman, is_ground, is_coin, is_coin, is_board, DrawX, DrawY, VGA_R, VGA_G, VGA_B, status
 
     game_logic logic_instance(  .*,                     // Clk, keycode, status, StickmanBottom, GroundY, CoinFrameX[3], CoinY[3], CoinStatus, frame_counter

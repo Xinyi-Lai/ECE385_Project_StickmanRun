@@ -12,6 +12,7 @@ module background ( input  	Clk,				// 50 MHz clock
 					input	restart,			// Game status
 					input [9:0]  DrawX, DrawY,	// Current pixel coordinates
 					input [2:0] CoinStatus,	// From game_logic
+					input [1:0] level_status,
 					output [12:0] CoinFrameX[3],// Frame X location of the 3 coins
 					output [9:0] CoinY[3],		// Frame Y location of the 3 coins
 					output [9:0] GroundY, 		// The height of the floor at where the stickman stands
@@ -80,32 +81,69 @@ module background ( input  	Clk,				// 50 MHz clock
 
 	// store terrain and coin
 	always_comb
-	begin 
-		for (int i=0; i<screen_Xmax; i++)
-			height[i] = ground_height;
-		for (int i=screen_Xmax; i<700; i++) 
-			height[i] = pitfall_height;
-		for (int i=700; i<1000;i++) 
-			height[i] = ground_height;
-		for (int i=1000; i<1200;i++) 
-			height[i] = upstair_height;
-		for (int i=1200; i<1500;i++) 
-			height[i] = ground_height;
-		for (int i=1500; i<1700;i++) 
-			height[i] = downstair_height;
-		for (int i=1700; i<2000;i++) 
-			height[i] = ground_height;
-		for (int i=2000; i<2300;i++) 
-			height[i] = upstair_height;
-		for (int i=2300; i<frame_counter_max+screen_Xmax;i++) 
-			height[i] = ground_height;
+	begin
+		if  (level_status == 2'b10)
+		begin
+			for (int i=0; i<screen_Xmax+450; i++)
+				height[i] = ground_height;
+			for (int i=screen_Xmax+450; i<1200; i++) 
+				height[i] = upstair_height;
+			for (int i=1200; i<1500;i++) 
+				height[i] = ground_height;
+			for (int i=1500; i<1580;i++) 
+				height[i] = pitfall_height;
+			for (int i=1580; i<1700;i++) 
+				height[i] = ground_height;
+			for (int i=1700; i<1800;i++) 
+				height[i] = downstair_height;
+			for (int i=1800; i<2000;i++) 
+				height[i] = ground_height;
+			for (int i=2000; i<2300;i++) 
+				height[i] = upstair_height;
+			for (int i=2300; i<2500;i++) 
+				height[i] = ground_height;	
+			for (int i=2500; i<2570;i++) 
+				height[i] = pitfall_height;	
+			for (int i=2570; i<frame_counter_max+screen_Xmax;i++) 
+				height[i] = ground_height;
 
-		CoinFrameX[0] = 13'd670;
-		CoinFrameX[1] = 13'd1100;
-		CoinFrameX[2] = 13'd1500;
-		CoinY[0] = height[CoinFrameX[0]-50] - Coin_height;
-		CoinY[1] = height[CoinFrameX[1]] - Coin_height;
-		CoinY[2] = height[CoinFrameX[2]] - Coin_height;
+			CoinFrameX[0] = 13'd800;
+			CoinFrameX[1] = 13'd1100;
+			CoinFrameX[2] = 13'd2200;
+			CoinY[0] = height[CoinFrameX[0]-50] - Coin_height;
+			CoinY[1] = height[CoinFrameX[1]] - Coin_height;
+			CoinY[2] = height[CoinFrameX[2]] - Coin_height;
+		end
+		else //if  (level_status == 2'b01)
+		begin
+			for (int i=0; i<screen_Xmax; i++)
+				height[i] = ground_height;
+			for (int i=screen_Xmax; i<700; i++) 
+				height[i] = pitfall_height;
+			for (int i=700; i<1000;i++) 
+				height[i] = ground_height;
+			for (int i=1000; i<1200;i++) 
+				height[i] = upstair_height;
+			for (int i=1200; i<1500;i++) 
+				height[i] = ground_height;
+			for (int i=1500; i<1700;i++) 
+				height[i] = downstair_height;
+			for (int i=1700; i<2000;i++) 
+				height[i] = ground_height;
+			for (int i=2000; i<2300;i++) 
+				height[i] = upstair_height;
+			for (int i=2300; i<frame_counter_max+screen_Xmax;i++) 
+				height[i] = ground_height;
+
+			CoinFrameX[0] = 13'd670;
+			CoinFrameX[1] = 13'd1100;
+			CoinFrameX[2] = 13'd1500;
+			CoinY[0] = height[CoinFrameX[0]-50] - Coin_height;
+			CoinY[1] = height[CoinFrameX[1]] - Coin_height;
+			CoinY[2] = height[CoinFrameX[2]] - Coin_height;
+		end
+		// else if  (level_status == 2'b10)
+		
 
 	end
 

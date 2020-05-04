@@ -14,7 +14,8 @@ module game_logic ( input	Clk,				// 50 MHz clock
 					input [12:0] CoinFrameX[3],// Frame X location of the 3 coins, from background.sv
 					input [9:0] CoinY[3],		// Frame Y location of the 3 coins, from background.sv
 					output [2:0] CoinStatus,	// From game_logic, to background.sv
-					output logic [3:0] status	// Game status {waiting, playing, win, lose}
+					output logic [1:0] level_status,  //judge which level the player choose
+					output logic [4:0] status	// Game status {waiting, playing, win, lose}
 				);
 
 	// check stickman lose
@@ -27,6 +28,7 @@ module game_logic ( input	Clk,				// 50 MHz clock
 	assign stickman_left_frame	= 12'd100 + frame_counter;
 	logic coin_collected[3];
 	logic [2:0] CoinStatus_in;
+	logic [1:0] level_status_in;
 	always_comb
 	begin
 		for (int i=0; i<3; i++) begin
@@ -37,7 +39,7 @@ module game_logic ( input	Clk,				// 50 MHz clock
 
 
     // FSM
-	enum logic [4:0] { WAIT, PLAY, WIN, LOSE, PREWAIT } curr_state, next_state;   // Internal state logic
+	enum logic [4:0] { SELECT, WAIT, PLAY, WIN, LOSE, PREWAIT } curr_state, next_state;   // Internal state logic
 
 	always_ff @ (posedge Clk)
 	begin
@@ -45,11 +47,13 @@ module game_logic ( input	Clk,				// 50 MHz clock
 		begin
 			curr_state <= WAIT;
 			CoinStatus <= 3'b111;
+			level_status <= 2'b01;  //defaut is level one
 		end
 		else 
 		begin
 			curr_state <= next_state;
 			CoinStatus <= CoinStatus_in;
+			level_status <= level_status_in;
 		end
 	end
 
@@ -58,13 +62,25 @@ module game_logic ( input	Clk,				// 50 MHz clock
 		// Default, nothing happens
 		next_state = curr_state;
 		CoinStatus_in = CoinStatus;
+		level_status_in = level_status;
 		
 		// Assign next state
 		unique case (curr_state)
 		
 			WAIT:
 				if (keycode == 8'h2c)
+					next_state = SELECT;
+			SELECT:
+				if (keycode == 8'h04)
+				begin
 					next_state = PLAY;
+					level_status_in = 2'b01;
+				end
+				else if (keycode == 8'h07)
+				begin
+					next_state = PLAY;
+					level_status_in = 2'b10;
+				end
 			PLAY:
             begin
                 if (stickman_fall || stickman_crash)
@@ -91,22 +107,27 @@ module game_logic ( input	Clk,				// 50 MHz clock
 		unique case (curr_state)
 			WAIT, PREWAIT:
 			begin
-				status = 4'b1000; 
+				status = 5'b01000; 
 				CoinStatus_in = 3'b111;
 			end
+			SELECT:
+			begin
+				status = 5'b10000; 
+
+			end
 			WIN:
-            status = 4'b0010;
+            status = 5'b00010;
             LOSE:
-				status = 4'b0001;
+				status = 5'b00001;
 			PLAY:
 			begin
-				status = 4'b0100;
+				status = 5'b00100;
 				for (int i=0; i<3; i++) begin
 					CoinStatus_in[i] = CoinStatus[i] && (!coin_collected[i]);
 				end
 			end
             default: 
-                status = 4'b0000;   // will never happen
+                status = 5'b00000;   // will never happen
 		endcase
 
 	end
