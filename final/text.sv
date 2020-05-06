@@ -424,7 +424,7 @@ module  select_text( 	input		Clk,                // 50 MHz clock
 			sprite_adress = Scaled_Y + Text_Height* 8'h1e;
 		end
 		//v
-		else if ( DrawX >=s210_X_Pos && DrawX < s211_X_Pos + Text_Width*3 &&
+		else if ( DrawX >=s210_X_Pos && DrawX < s210_X_Pos + Text_Width*3 &&
 				DrawY >=Line2_Y_Pos && DrawY < Line2_Y_Pos + Text_Height*3) begin    
 			text_on = 1'b1;
 			Scaled_X = (DrawX-s210_X_Pos)/3;
@@ -529,7 +529,7 @@ module  select_text( 	input		Clk,                // 50 MHz clock
 			sprite_adress = Scaled_Y + Text_Height* 8'h1e;
 		end
 		//v
-		else if ( DrawX >=s210_X_Pos && DrawX < s211_X_Pos + Text_Width*3 &&
+		else if ( DrawX >=s210_X_Pos && DrawX < s210_X_Pos + Text_Width*3 &&
 				DrawY >=Line3_Y_Pos && DrawY < Line3_Y_Pos + Text_Height*3) begin    
 			text_on = 1'b1;
 			Scaled_X = (DrawX-s210_X_Pos)/3;
