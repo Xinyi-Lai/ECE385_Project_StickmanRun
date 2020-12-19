@@ -1,3 +1,13 @@
+//**********************************************//
+//  Author: Ahmad Alastal                       //
+//  Completion date: 25/7/2019 11.00PM          //
+//  Title: WM8731 Audio CODEC demo              //
+//  Main function: Audio demonstration          //
+//                                              //
+//  Modified by Xinyi Lai                       //
+//  ECE385 2020SP, Final Project, Stickman run  //
+//**********************************************//
+
 module I2C_Protocol(
 	input clk,reset,ignition,
 	input [15:0] MUX_input,	
@@ -12,6 +22,7 @@ reg [13:0] counter;		//to generate 2.5kHz clock
 reg [4:0] tick_counter; //to measure number of clock ticks 
 reg serial_data,start_condition,out;
 assign SDIN = (out)? serial_data: 1'bz;
+
 //============================================	
 // Design structure:
 // state:0 start condition
