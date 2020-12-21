@@ -18,7 +18,7 @@ We learned a lot from [this repo](https://github.com/AhmadGon/WM8731-Audio-CODEC
 
 1. Configure CODEC over I2C, handled in Sound_Top.v. 
 2. Convert audio files into mif format, may need to resample depends on the available memory space, handled in Audio_helper.
-3. Use N9K blocks to store the audio files. Generate the ROMs using Megafunction IP cores in Quartus with the MIF file as the initialization file, and choose N9K blocks to be the memory location.
+3. Use M9K blocks to store the audio files. Generate the ROMs using Megafunction IP cores in Quartus with the MIF file as the initialization file, and choose M9K blocks to be the memory location.
 
 ### Sprites
 Very similar to lab8.
